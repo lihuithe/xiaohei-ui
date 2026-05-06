@@ -8,7 +8,7 @@ English | [中文](./README.md)
 
 A reusable Electron desktop UI scaffold template. Clone this repo to skip the tedious boilerplate setup when building a similar desktop application.
 
-> **UI Design Note**: The UI design of this project is inspired by [OpenAI Codex CLI](https://github.com/openai/codex), with adaptations and extensions on top of it.
+> **UI Design Note**: The UI design of this project is inspired by OpenAI Codex desktop client, with adaptations and extensions on top of it.
 
 **Author**: 李召伟 Leo
 
