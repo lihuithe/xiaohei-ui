@@ -36,7 +36,7 @@ function createTray() {
   if (tray) return
 
   tray = new Tray(createTrayIcon())
-  tray.setToolTip('小黑日报助手')
+  tray.setToolTip('小黑助手')
 
   const contextMenu = Menu.buildFromTemplate([
     {

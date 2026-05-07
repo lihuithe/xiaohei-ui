@@ -37,8 +37,8 @@
     "vue-tsc": "^3.2.7"
   },
   "build": {
-    "appId": "com.xiaohei.daily-assistant",
-    "productName": "小黑日报助手",
+    "appId": "com.xiaohei.assistant",
+    "productName": "小黑助手",
     "directories": {
       "output": "release"
     },
