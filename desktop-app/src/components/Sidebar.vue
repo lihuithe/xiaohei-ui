@@ -218,7 +218,7 @@ function toggleCollapse() {
   height: 20px;
   border: none;
   background: transparent;
-  color: rgba(0, 0, 0, 0.4);
+  color: var(--muted-foreground);
   border-radius: 4px;
   cursor: pointer;
   display: flex;
@@ -230,12 +230,12 @@ function toggleCollapse() {
 }
 
 .titlebar-action-btn:hover {
-  color: rgba(0, 0, 0, 0.7);
-  background: rgba(0, 0, 0, 0.05);
+  color: var(--foreground);
+  background: hsl(0 0% 0% / 0.05);
 }
 
 .titlebar-action-btn:active {
-  background: rgba(0, 0, 0, 0.08);
+  background: hsl(0 0% 0% / 0.08);
 }
 
 .drag-spacer {
@@ -273,7 +273,7 @@ function toggleCollapse() {
 .traffic-light-minimize { background: #febc2e; }
 .traffic-light-maximize { background: #28c840; }
 
-.traffic-light.show-icon { color: rgba(0, 0, 0, 0.45); }
+.traffic-light.show-icon { color: hsl(0 0% 0% / 0.45); }
 .traffic-light-close.show-icon { background: #ff4136; }
 .traffic-light-minimize.show-icon { background: #f5b400; }
 .traffic-light-maximize.show-icon { background: #17ad31; }
@@ -302,11 +302,11 @@ function toggleCollapse() {
 }
 
 .nav-item:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background: hsl(0 0% 0% / 0.05);
 }
 
 .nav-item-active {
-  background: rgba(0, 0, 0, 0.07);
+  background: hsl(0 0% 0% / 0.07);
   color: var(--foreground);
 }
 
@@ -391,7 +391,7 @@ function toggleCollapse() {
 }
 
 .project-item-active {
-  background: rgba(0, 0, 0, 0.07);
+  background: hsl(0 0% 0% / 0.07);
 }
 
 .project-dot {

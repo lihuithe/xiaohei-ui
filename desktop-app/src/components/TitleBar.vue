@@ -94,7 +94,7 @@ function close() {
         </svg>
         <svg v-else width="10" height="10" viewBox="0 0 10 10" fill="none">
           <rect x="2.5" y="0" width="7" height="7" stroke="currentColor" fill="none" />
-          <rect x="0" y="2.5" width="7" height="7" stroke="currentColor" fill="#fff" />
+          <rect x="0" y="2.5" width="7" height="7" stroke="currentColor" fill="var(--background)" />
           <rect x="0" y="2.5" width="7" height="7" stroke="currentColor" fill="none" />
         </svg>
       </button>
@@ -121,8 +121,8 @@ function close() {
   display: flex;
   align-items: center;
   position: relative;
-  background: #ececec;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background: var(--muted);
+  border-bottom: 1px solid var(--border);
 }
 
 .traffic-lights {
@@ -163,7 +163,7 @@ function close() {
 }
 
 .traffic-light.show-icon {
-  color: rgba(0, 0, 0, 0.45);
+  color: hsl(0 0% 0% / 0.45);
 }
 
 .traffic-light-close.show-icon {
@@ -182,7 +182,7 @@ function close() {
   right: 0;
   text-align: center;
   font-weight: 500;
-  color: #4d4d4d;
+  color: var(--muted-foreground);
   pointer-events: none;
 }
 
@@ -192,15 +192,15 @@ function close() {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--background, #fff);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--background);
+  border-bottom: 1px solid var(--border);
 }
 
 .win-titlebar .titlebar-title {
   flex: 1;
   text-align: left;
   padding-left: 12px;
-  color: var(--foreground, #333);
+  color: var(--foreground);
   pointer-events: none;
 }
 
@@ -215,7 +215,7 @@ function close() {
   height: 100%;
   border: none;
   background: transparent;
-  color: var(--foreground, #333);
+  color: var(--foreground);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -225,12 +225,12 @@ function close() {
 }
 
 .win-btn:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background: hsl(0 0% 0% / 0.05);
 }
 
 .win-btn-close:hover {
-  background: #e81123 !important;
-  color: #fff !important;
+  background: var(--destructive) !important;
+  color: var(--destructive-foreground) !important;
 }
 
 .win-btn svg {

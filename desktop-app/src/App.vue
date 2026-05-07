@@ -182,7 +182,7 @@ function close() {
   flex-direction: column;
   background: var(--background);
   border-radius: 10px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06), 0 0 1px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 4px hsl(0 0% 0% / 0.06), 0 0 1px hsl(0 0% 0% / 0.04);
   overflow: hidden;
   pointer-events: auto;
   transition: margin-left 0.2s ease;
@@ -235,12 +235,12 @@ function close() {
 }
 
 .win-btn:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background: hsl(0 0% 0% / 0.05);
 }
 
 .win-btn-close:hover {
-  background: #e81123 !important;
-  color: #fff !important;
+  background: var(--destructive) !important;
+  color: var(--destructive-foreground) !important;
   border-top-right-radius: 10px;
 }
 
@@ -271,7 +271,7 @@ function close() {
   height: 20px;
   border: none;
   background: transparent;
-  color: rgba(0, 0, 0, 0.4);
+  color: var(--muted-foreground);
   border-radius: 4px;
   cursor: pointer;
   display: flex;
@@ -283,12 +283,12 @@ function close() {
 }
 
 .collapsed-action-btn:hover {
-  color: rgba(0, 0, 0, 0.7);
-  background: rgba(0, 0, 0, 0.05);
+  color: var(--foreground);
+  background: hsl(0 0% 0% / 0.05);
 }
 
 .collapsed-action-btn:active {
-  background: rgba(0, 0, 0, 0.08);
+  background: hsl(0 0% 0% / 0.08);
 }
 
 /* Traffic lights (for collapsed header) */
@@ -321,7 +321,7 @@ function close() {
 .traffic-light-minimize { background: #febc2e; }
 .traffic-light-maximize { background: #28c840; }
 
-.traffic-light.show-icon { color: rgba(0, 0, 0, 0.45); }
+.traffic-light.show-icon { color: hsl(0 0% 0% / 0.45); }
 .traffic-light-close.show-icon { background: #ff4136; }
 .traffic-light-minimize.show-icon { background: #f5b400; }
 .traffic-light-maximize.show-icon { background: #17ad31; }
