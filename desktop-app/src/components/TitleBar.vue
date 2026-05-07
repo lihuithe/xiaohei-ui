@@ -72,7 +72,7 @@ function close() {
         </svg>
       </button>
     </div>
-    <span class="titlebar-title">Electron Vue3 App</span>
+    <span class="titlebar-title text-sm font-medium">Electron Vue3 App</span>
   </div>
 
   <!-- Windows Title Bar -->
@@ -81,7 +81,7 @@ function close() {
     class="titlebar win-titlebar"
     @dblclick="handleDoubleClick"
   >
-    <span class="titlebar-title">Electron Vue3 App</span>
+    <span class="titlebar-title text-xs">Electron Vue3 App</span>
     <div class="win-controls">
       <button class="win-btn" @click="minimize" title="最小化">
         <svg width="10" height="1" viewBox="0 0 10 1">
@@ -181,7 +181,6 @@ function close() {
   left: 0;
   right: 0;
   text-align: center;
-  font-size: 13px;
   font-weight: 500;
   color: #4d4d4d;
   pointer-events: none;
@@ -201,7 +200,6 @@ function close() {
   flex: 1;
   text-align: left;
   padding-left: 12px;
-  font-size: 12px;
   color: var(--foreground, #333);
   pointer-events: none;
 }

@@ -90,7 +90,7 @@ function close() {
                 </button>
               </div>
             </template>
-            <span class="header-title">日常工作助手</span>
+            <span class="header-title text-sm font-medium">日常工作助手</span>
           </div>
 
           <!-- Windows controls -->
@@ -209,7 +209,6 @@ function close() {
 }
 
 .header-title {
-  font-size: 13px;
   font-weight: 500;
   color: var(--muted-foreground);
 }
