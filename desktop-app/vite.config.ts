@@ -16,7 +16,6 @@ export default defineConfig({
       },
     ]),
     renderer(),
-    // Copy preload.cjs to dist-electron after build
     {
       name: 'copy-preload',
       buildStart() {
