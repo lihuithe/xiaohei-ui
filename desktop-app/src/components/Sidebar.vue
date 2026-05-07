@@ -114,7 +114,7 @@ function toggleCollapse() {
       <button
         v-for="item in navItems"
         :key="item.id"
-        class="nav-item text-sm"
+        class="nav-item text-xs"
         :class="{ 'nav-item-active': activeNav === item.id }"
         :title="collapsed ? item.label : ''"
         @click="activeNav = item.id"
@@ -129,7 +129,7 @@ function toggleCollapse() {
     <!-- Conversation list -->
     <div class="sidebar-section">
       <div class="section-header">
-        <span class="section-title text-sm">对话</span>
+        <span class="section-title text-xs">对话</span>
         <button class="section-action" title="新建对话">
           <Plus :size="14" />
         </button>
@@ -138,7 +138,7 @@ function toggleCollapse() {
         <button
           v-for="conv in conversations"
           :key="conv.id"
-          class="project-item text-sm"
+          class="project-item text-xs"
           :class="{ 'project-item-active': conv.active }"
         >
           <span class="project-name">{{ conv.name }}</span>
@@ -148,7 +148,7 @@ function toggleCollapse() {
 
     <!-- Bottom: Settings -->
     <div class="sidebar-bottom">
-      <button class="nav-item text-sm" title="设置">
+      <button class="nav-item text-xs" title="设置">
         <span class="nav-icon">
           <Settings :size="18" />
         </span>
