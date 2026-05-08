@@ -58,13 +58,19 @@ function createTray() {
 }
 
 function createWindow() {
+  const isMac = process.platform === 'darwin'
   win = new BrowserWindow({
     width: 1200,
     height: 800,
     frame: false,
     transparent: true,
     backgroundColor: '#00000000',
-    vibrancy: 'under-window-background',
+    ...(process.platform === 'darwin' 
+    ? {
+        vibrancy: 'light',
+        visualEffectState: 'active',
+      } 
+    : {}),
     icon: getIconPath(process.platform === 'win32' ? 'icon-win.png' : 'icon.png'),
     // Windows 下隐藏到托盘时跳过任务栏
     skipTaskbar: false,

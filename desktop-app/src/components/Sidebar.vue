@@ -170,9 +170,7 @@ function toggleCollapse() {
   flex-direction: column;
   padding: 0 10px 0 10px;
   padding-right: 20px;
-  background: oklch(0.95 0.005 260 / 0.99);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  background: rgba(242, 242, 242, 0.98) !important;
   user-select: none;
   overflow: visible;
   border-radius: 10px 0 0 10px;
@@ -190,7 +188,7 @@ function toggleCollapse() {
   right: -12px;
   bottom: 0;
   width: 12px;
-  background: oklch(0.95 0.005 260 / 0.99);
+  background: rgba(242, 242, 242, 0.98) !important;
   pointer-events: none;
 }
 
