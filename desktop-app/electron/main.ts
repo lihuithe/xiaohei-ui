@@ -18,7 +18,9 @@ function getIconPath(filename: string): string {
 
 function createTrayIcon() {
   if (process.platform === 'darwin') {
-    return nativeImage.createFromPath(getIconPath('tray-icon-mac.png')).resize({ width: 22, height: 22 })
+    return nativeImage
+      .createFromPath(getIconPath('tray-icon-mac.png'))
+      .resize({ width: 22, height: 22 })
   }
   // Windows: 使用 64x64 高分辨率托盘图标，适配高 DPI 屏幕
   return nativeImage.createFromPath(getIconPath('tray-icon.png'))
@@ -65,12 +67,12 @@ function createWindow() {
     frame: false,
     transparent: true,
     backgroundColor: '#00000000',
-    ...(process.platform === 'darwin' 
-    ? {
-        vibrancy: 'light',
-        visualEffectState: 'active',
-      } 
-    : {}),
+    ...(process.platform === 'darwin'
+      ? {
+          vibrancy: 'light',
+          visualEffectState: 'active',
+        }
+      : {}),
     icon: getIconPath(process.platform === 'win32' ? 'icon-win.png' : 'icon.png'),
     // Windows 下隐藏到托盘时跳过任务栏
     skipTaskbar: false,
