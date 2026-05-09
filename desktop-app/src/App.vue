@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { SquarePen, PanelLeft, Maximize2, Minimize2 } from 'lucide-vue-next'
-import { Button } from '@/components/ui/button'
 import Sidebar from '@/components/Sidebar.vue'
+import { RouterView } from 'vue-router'
 
 const api = window.electronAPI
 const platform = api?.platform ?? 'darwin'
@@ -119,35 +119,7 @@ function close() {
 
         <!-- Main content -->
         <div class="content-body">
-          <div class="content-welcome">
-            <h1 class="text-3xl font-semibold tracking-tight">欢迎使用小黑助手</h1>
-            <p class="text-muted-foreground mt-2">选择一个对话开始，或创建新的对话</p>
-
-            <div class="mt-8 flex gap-3 flex-wrap">
-              <Button>开始对话</Button>
-              <Button variant="outline">新建项目</Button>
-              <Button variant="secondary">浏览插件</Button>
-            </div>
-
-            <div class="mt-10 grid grid-cols-2 gap-4 max-w-lg">
-              <div class="rounded-lg border p-4">
-                <h3 class="font-medium text-sm">快速搜索</h3>
-                <p class="text-xs text-muted-foreground mt-1">使用自然语言搜索你的数据</p>
-              </div>
-              <div class="rounded-lg border p-4">
-                <h3 class="font-medium text-sm">自动化工作流</h3>
-                <p class="text-xs text-muted-foreground mt-1">配置自动化任务提效</p>
-              </div>
-              <div class="rounded-lg border p-4">
-                <h3 class="font-medium text-sm">插件市场</h3>
-                <p class="text-xs text-muted-foreground mt-1">发现和安装实用插件</p>
-              </div>
-              <div class="rounded-lg border p-4">
-                <h3 class="font-medium text-sm">智能助手</h3>
-                <p class="text-xs text-muted-foreground mt-1">AI 驱动的日常助手服务</p>
-              </div>
-            </div>
-          </div>
+          <RouterView />
         </div>
       </div>
     </main>

@@ -126,6 +126,7 @@
     background: transparent;
     @apply text-foreground;
     @apply font-sans;
+    transition: background-color 0.3s ease, color 0.3s ease;
     }
 }
 
@@ -136,4 +137,8 @@
   body {
     @apply bg-background text-foreground;
     }
+
+  * {
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
 }

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { Settings, PanelLeft, Maximize2, Minimize2, MessageSquare, Search, Puzzle, Zap, Plus } from 'lucide-vue-next'
+import { Settings, PanelLeft, Maximize2, Minimize2, MessageSquare, Search, Puzzle, Zap, Plus, Sun, Moon, Monitor } from 'lucide-vue-next'
+import { useTheme } from '@/composables/useTheme'
 
 const props = defineProps<{
   collapsed: boolean
@@ -15,6 +16,7 @@ const platform = api?.platform ?? 'darwin'
 const isMaximized = ref(false)
 const isHoveringGroup = ref(false)
 const activeNav = ref('chat')
+const { theme, toggleTheme } = useTheme()
 
 onMounted(() => {
   api?.onWindowStateChanged?.((state: string) => {
@@ -53,6 +55,18 @@ function close() {
 
 function toggleCollapse() {
   emit('update:collapsed', !props.collapsed)
+}
+
+function getThemeIcon() {
+  if (theme.value === 'light') return Sun
+  if (theme.value === 'dark') return Moon
+  return Monitor
+}
+
+function getThemeTitle() {
+  if (theme.value === 'light') return '浅色模式'
+  if (theme.value === 'dark') return '深色模式'
+  return '跟随系统'
 }
 </script>
 
@@ -146,8 +160,14 @@ function toggleCollapse() {
       </div>
     </div>
 
-    <!-- Bottom: Settings -->
+    <!-- Bottom: Settings & Theme Toggle -->
     <div class="sidebar-bottom">
+      <button class="nav-item text-xs" :title="getThemeTitle()" @click="toggleTheme">
+        <span class="nav-icon">
+          <component :is="getThemeIcon()" :size="16" />
+        </span>
+        <span v-if="!collapsed" class="nav-label">{{ getThemeTitle() }}</span>
+      </button>
       <button class="nav-item text-xs" title="设置">
         <span class="nav-icon">
           <Settings :size="18" />
@@ -170,14 +190,18 @@ function toggleCollapse() {
   flex-direction: column;
   padding: 0 10px 0 10px;
   padding-right: 20px;
-  background: rgba(242, 242, 242, 0.98) !important;
+  background: var(--sidebar);
   user-select: none;
   overflow: visible;
   border-radius: 10px 0 0 10px;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease-out;
 }
 
 .sidebar-collapsed {
+  width: 0;
+  padding: 0;
   pointer-events: none;
+  opacity: 0;
 }
 
 /* Extend background 12px to the right for content area overlap */
@@ -188,7 +212,7 @@ function toggleCollapse() {
   right: -12px;
   bottom: 0;
   width: 12px;
-  background: rgba(242, 242, 242, 0.98) !important;
+  background: var(--sidebar);
   pointer-events: none;
 }
 
