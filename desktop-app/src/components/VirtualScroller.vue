@@ -14,7 +14,7 @@ import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 
 interface Props {
-  items: any[]
+  items: unknown[]
   itemSize?: number
   keyField?: string
 }
