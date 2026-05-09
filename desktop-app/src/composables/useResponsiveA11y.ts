@@ -36,10 +36,7 @@ export function useResponsive() {
   }
 }
 
-export function useKeyboardNavigation(
-  elements: HTMLElement[],
-  onEnter?: (_index: number) => void,
-) {
+export function useKeyboardNavigation(elements: HTMLElement[], onEnter?: (_index: number) => void) {
   const currentIndex = ref(-1)
 
   const handleKeyDown = (event: KeyboardEvent) => {
@@ -53,8 +50,7 @@ export function useKeyboardNavigation(
       case 'ArrowUp':
       case 'ArrowLeft':
         event.preventDefault()
-        currentIndex.value =
-          currentIndex.value <= 0 ? elements.length - 1 : currentIndex.value - 1
+        currentIndex.value = currentIndex.value <= 0 ? elements.length - 1 : currentIndex.value - 1
         elements[currentIndex.value]?.focus()
         break
       case 'Enter':

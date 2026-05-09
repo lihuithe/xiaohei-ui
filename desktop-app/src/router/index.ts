@@ -52,6 +52,18 @@ const baseRoutes: RouteRecordRaw[] = [
     },
   },
   {
+    path: '/demo',
+    name: 'FeatureDemo',
+    component: () => import('@/pages/FeatureDemo.vue'),
+    meta: {
+      title: '功能演示',
+      breadcrumb: [
+        { path: '/', title: '首页' },
+        { path: '/demo', title: '功能演示' },
+      ],
+    },
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('@/pages/NotFoundPage.vue'),

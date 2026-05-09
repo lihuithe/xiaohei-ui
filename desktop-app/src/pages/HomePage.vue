@@ -22,6 +22,7 @@ const router = useRouter()
       <Button>开始对话</Button>
       <Button variant="outline">新建项目</Button>
       <Button variant="secondary" @click="router.push('/components')">浏览组件</Button>
+      <Button variant="secondary" @click="router.push('/demo')">功能演示</Button>
     </div>
 
     <div class="mt-10 grid grid-cols-2 gap-4 max-w-lg">

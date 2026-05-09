@@ -13,6 +13,17 @@ export default defineConfig({
     electron([
       {
         entry: 'electron/main.ts',
+        vite: {
+          build: {
+            minify: 'terser',
+            terserOptions: {
+              compress: {
+                drop_console: true,
+                drop_debugger: true,
+              },
+            },
+          },
+        },
       },
     ]),
     renderer(),
@@ -36,17 +47,22 @@ export default defineConfig({
   build: {
     target: 'esnext',
     minify: 'terser',
+    sourcemap: false,
+    cssMinify: true,
     terserOptions: {
       compress: {
         drop_console: true,
         drop_debugger: true,
+        pure_funcs: ['console.log', 'console.info', 'console.debug'],
       },
     },
     rollupOptions: {
       output: {
         manualChunks: {
           'vue-vendor': ['vue', 'vue-router', 'pinia'],
-          'ui-vendor': ['lucide-vue-next', 'shadcn-vue'],
+          'ui-vendor': ['lucide-vue-next', 'shadcn-vue', 'reka-ui'],
+          'chart-vendor': ['echarts', 'vue-echarts'],
+          'utils-vendor': ['dayjs', 'xlsx', 'zod', 'vee-validate'],
         },
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
@@ -54,6 +70,7 @@ export default defineConfig({
       },
     },
     chunkSizeWarningLimit: 1000,
+    reportCompressedSize: true,
   },
   server: {
     hmr: {

@@ -1,7 +1,24 @@
 {
-  "name": "electron-vue3-app",
-  "private": true,
-  "version": "0.0.0",
+  "name": "xiaohei-helper",
+  "version": "1.0.0",
+  "description": "小黑助手 - 基于 Electron + Vue3 的桌面应用",
+  "author": "Xiaohei Team",
+  "license": "MIT",
+  "keywords": [
+    "electron",
+    "vue3",
+    "desktop",
+    "ui-components",
+    "xiaohei"
+  ],
+  "homepage": "https://github.com/your-username/xiaohei-helper",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/xiaohei-helper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/xiaohei-helper/issues"
+  },
   "main": "dist-electron/main.js",
   "type": "module",
   "scripts": {
