@@ -22,20 +22,76 @@ import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 
 const users = ref([
-  { id: 1, name: '张三', email: 'zhangsan@example.com', role: '管理员', status: 'active', joinDate: '2024-01-15' },
-  { id: 2, name: '李四', email: 'lisi@example.com', role: '编辑', status: 'active', joinDate: '2024-02-20' },
-  { id: 3, name: '王五', email: 'wangwu@example.com', role: '用户', status: 'pending', joinDate: '2024-03-10' },
-  { id: 4, name: '赵六', email: 'zhaoliu@example.com', role: '用户', status: 'inactive', joinDate: '2024-01-25' },
-  { id: 5, name: '钱七', email: 'qianqi@example.com', role: '编辑', status: 'active', joinDate: '2024-04-05' },
-  { id: 6, name: '孙八', email: 'sunba@example.com', role: '用户', status: 'active', joinDate: '2024-04-15' },
-  { id: 7, name: '周九', email: 'zhoujiu@example.com', role: '管理员', status: 'active', joinDate: '2024-02-01' },
-  { id: 8, name: '吴十', email: 'wushi@example.com', role: '用户', status: 'pending', joinDate: '2024-05-01' },
+  {
+    id: 1,
+    name: '张三',
+    email: 'zhangsan@example.com',
+    role: '管理员',
+    status: 'active',
+    joinDate: '2024-01-15',
+  },
+  {
+    id: 2,
+    name: '李四',
+    email: 'lisi@example.com',
+    role: '编辑',
+    status: 'active',
+    joinDate: '2024-02-20',
+  },
+  {
+    id: 3,
+    name: '王五',
+    email: 'wangwu@example.com',
+    role: '用户',
+    status: 'pending',
+    joinDate: '2024-03-10',
+  },
+  {
+    id: 4,
+    name: '赵六',
+    email: 'zhaoliu@example.com',
+    role: '用户',
+    status: 'inactive',
+    joinDate: '2024-01-25',
+  },
+  {
+    id: 5,
+    name: '钱七',
+    email: 'qianqi@example.com',
+    role: '编辑',
+    status: 'active',
+    joinDate: '2024-04-05',
+  },
+  {
+    id: 6,
+    name: '孙八',
+    email: 'sunba@example.com',
+    role: '用户',
+    status: 'active',
+    joinDate: '2024-04-15',
+  },
+  {
+    id: 7,
+    name: '周九',
+    email: 'zhoujiu@example.com',
+    role: '管理员',
+    status: 'active',
+    joinDate: '2024-02-01',
+  },
+  {
+    id: 8,
+    name: '吴十',
+    email: 'wushi@example.com',
+    role: '用户',
+    status: 'pending',
+    joinDate: '2024-05-01',
+  },
 ])
 
 const selectedRows = ref<number[]>([])
 
 function toggleSelectAll(checked: boolean) {
-  selectedRows.value = checked ? users.value.map(u => u.id) : []
+  selectedRows.value = checked ? users.value.map((u) => u.id) : []
 }
 
 function toggleSelect(id: number) {
@@ -93,7 +149,9 @@ function getStatusLabel(status: string) {
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-2">
           <div class="relative">
-            <Search class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Search
+              class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"
+            />
             <Input placeholder="搜索用户..." class="pl-9 w-64" />
           </div>
           <Button variant="outline">
@@ -173,9 +231,7 @@ function getStatusLabel(status: string) {
 
       <!-- Pagination -->
       <div class="flex items-center justify-between">
-        <p class="text-sm text-muted-foreground">
-          显示 1-8 共 {{ users.length }} 条
-        </p>
+        <p class="text-sm text-muted-foreground">显示 1-8 共 {{ users.length }} 条</p>
         <div class="flex items-center gap-2">
           <Button variant="outline" size="sm" disabled>上一页</Button>
           <Button variant="outline" size="sm">下一页</Button>

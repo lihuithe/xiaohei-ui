@@ -26,9 +26,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
     <CardHeader>
       <CardTitle>卡片标题</CardTitle>
     </CardHeader>
-    <CardContent>
-      卡片内容
-    </CardContent>
+    <CardContent> 卡片内容 </CardContent>
   </Card>
 </template>
 ```

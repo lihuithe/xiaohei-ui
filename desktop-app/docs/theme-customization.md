@@ -12,16 +12,16 @@
 
 ```css
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    /* 更多颜色变量... */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  /* 更多颜色变量... */
 }
 
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    /* 更多暗色变量... */
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  /* 更多暗色变量... */
 }
 ```
 

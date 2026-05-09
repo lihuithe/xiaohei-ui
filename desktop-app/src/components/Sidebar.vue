@@ -1,6 +1,19 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { Settings, PanelLeft, Maximize2, Minimize2, MessageSquare, Search, Puzzle, Zap, Plus, Sun, Moon, Monitor } from 'lucide-vue-next'
+import {
+  Settings,
+  PanelLeft,
+  Maximize2,
+  Minimize2,
+  MessageSquare,
+  Search,
+  Puzzle,
+  Zap,
+  Plus,
+  Sun,
+  Moon,
+  Monitor,
+} from 'lucide-vue-next'
 import { useTheme } from '@/composables/useTheme'
 
 const props = defineProps<{
@@ -73,10 +86,7 @@ function getThemeTitle() {
 <template>
   <aside class="sidebar" :class="{ 'sidebar-collapsed': collapsed }">
     <!-- Drag region + macOS traffic lights -->
-    <div
-      class="sidebar-drag-area"
-      @dblclick="handleDoubleClick"
-    >
+    <div class="sidebar-drag-area" @dblclick="handleDoubleClick">
       <!-- macOS Traffic Lights -->
       <div
         v-if="platform === 'darwin'"
@@ -90,7 +100,12 @@ function getThemeTitle() {
           @click="close"
         >
           <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
-            <path d="M1.5 1.5L6.5 6.5M6.5 1.5L1.5 6.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+            <path
+              d="M1.5 1.5L6.5 6.5M6.5 1.5L1.5 6.5"
+              stroke="currentColor"
+              stroke-width="1.2"
+              stroke-linecap="round"
+            />
           </svg>
         </button>
         <button
@@ -194,7 +209,9 @@ function getThemeTitle() {
   user-select: none;
   overflow: visible;
   border-radius: 10px 0 0 10px;
-  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease-out;
+  transition:
+    width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s ease-out;
 }
 
 .sidebar-collapsed {
@@ -248,7 +265,9 @@ function getThemeTitle() {
   justify-content: center;
   padding: 0;
   outline: none;
-  transition: color 0.15s, background-color 0.15s;
+  transition:
+    color 0.15s,
+    background-color 0.15s;
 }
 
 .titlebar-action-btn:hover {
@@ -291,14 +310,28 @@ function getThemeTitle() {
   filter: brightness(0.7);
 }
 
-.traffic-light-close { background: #ff5f57; }
-.traffic-light-minimize { background: #febc2e; }
-.traffic-light-maximize { background: #28c840; }
+.traffic-light-close {
+  background: #ff5f57;
+}
+.traffic-light-minimize {
+  background: #febc2e;
+}
+.traffic-light-maximize {
+  background: #28c840;
+}
 
-.traffic-light.show-icon { color: hsl(0 0% 0% / 0.45); }
-.traffic-light-close.show-icon { background: #ff4136; }
-.traffic-light-minimize.show-icon { background: #f5b400; }
-.traffic-light-maximize.show-icon { background: #17ad31; }
+.traffic-light.show-icon {
+  color: hsl(0 0% 0% / 0.45);
+}
+.traffic-light-close.show-icon {
+  background: #ff4136;
+}
+.traffic-light-minimize.show-icon {
+  background: #f5b400;
+}
+.traffic-light-maximize.show-icon {
+  background: #17ad31;
+}
 
 /* Navigation */
 .sidebar-nav {
@@ -319,7 +352,9 @@ function getThemeTitle() {
   cursor: pointer;
   width: 100%;
   text-align: left;
-  transition: background-color 0.1s, color 0.1s;
+  transition:
+    background-color 0.1s,
+    color 0.1s;
   white-space: nowrap;
 }
 

@@ -2,7 +2,15 @@
 import { Transition } from 'vue'
 
 interface Props {
-  name?: 'fade' | 'fade-up' | 'fade-down' | 'fade-left' | 'fade-right' | 'scale' | 'slide-left' | 'slide-right'
+  name?:
+    | 'fade'
+    | 'fade-up'
+    | 'fade-down'
+    | 'fade-left'
+    | 'fade-right'
+    | 'scale'
+    | 'slide-left'
+    | 'slide-right'
   mode?: 'in-out' | 'out-in' | 'default'
   duration?: number
 }
@@ -15,11 +23,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <Transition
-    :name="name"
-    :mode="mode === 'default' ? undefined : mode"
-    :css="true"
-  >
+  <Transition :name="name" :mode="mode === 'default' ? undefined : mode" :css="true">
     <slot />
   </Transition>
 </template>

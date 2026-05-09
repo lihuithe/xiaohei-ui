@@ -23,7 +23,7 @@ export default defineConfig({
         if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
         fs.copyFileSync(
           path.resolve(__dirname, 'electron/preload.cjs'),
-          path.resolve(dir, 'preload.cjs'),
+          path.resolve(dir, 'preload.cjs')
         )
       },
     },

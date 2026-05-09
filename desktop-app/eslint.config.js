@@ -17,10 +17,7 @@ export default tseslint.config(
     rules: {
       'prettier/prettier': 'error',
       '@typescript-eslint/no-explicit-any': 'warn',
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        { argsIgnorePattern: '^_' },
-      ],
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       'vue/multi-word-component-names': 'off',
       'vue/no-v-html': 'warn',
     },
@@ -34,5 +31,5 @@ export default tseslint.config(
   },
   {
     ignores: ['node_modules', 'dist', 'dist-electron', 'release', '*.config.*'],
-  },
+  }
 )

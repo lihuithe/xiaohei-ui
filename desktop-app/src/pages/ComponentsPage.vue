@@ -28,7 +28,7 @@ const checked = ref(false)
         <TabsTrigger value="form">表单组件</TabsTrigger>
         <TabsTrigger value="data">数据展示</TabsTrigger>
       </TabsList>
-      
+
       <TabsContent value="basic" class="mt-6 space-y-6">
         <Card>
           <CardHeader>
@@ -79,7 +79,10 @@ const checked = ref(false)
           </CardHeader>
           <CardContent class="flex items-center space-x-3">
             <Switch id="airplane-mode" v-model="checked" />
-            <label for="airplane-mode" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+            <label
+              for="airplane-mode"
+              class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
               {{ checked ? '已开启' : '已关闭' }}
             </label>
           </CardContent>

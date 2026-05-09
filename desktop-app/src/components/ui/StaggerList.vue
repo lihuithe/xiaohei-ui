@@ -13,11 +13,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <TransitionGroup
-    :tag="tag"
-    name="stagger-fade"
-    class="stagger-list"
-  >
+  <TransitionGroup :tag="tag" name="stagger-fade" class="stagger-list">
     <slot />
   </TransitionGroup>
 </template>

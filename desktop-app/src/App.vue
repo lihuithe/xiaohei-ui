@@ -40,10 +40,7 @@ function close() {
     <main class="main-area">
       <div class="main-content">
         <!-- Top header bar: collapsed controls + title + window controls -->
-        <div
-          class="content-header"
-          @dblclick="handleDoubleClick"
-        >
+        <div class="content-header" @dblclick="handleDoubleClick">
           <div class="header-left">
             <template v-if="sidebarCollapsed">
               <!-- macOS Traffic Lights -->
@@ -59,7 +56,12 @@ function close() {
                   @click="close"
                 >
                   <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
-                    <path d="M1.5 1.5L6.5 6.5M6.5 1.5L1.5 6.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                    <path
+                      d="M1.5 1.5L6.5 6.5M6.5 1.5L1.5 6.5"
+                      stroke="currentColor"
+                      stroke-width="1.2"
+                      stroke-linecap="round"
+                    />
                   </svg>
                 </button>
                 <button
@@ -68,7 +70,12 @@ function close() {
                   @click="minimize"
                 >
                   <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
-                    <path d="M1.5 4H6.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                    <path
+                      d="M1.5 4H6.5"
+                      stroke="currentColor"
+                      stroke-width="1.2"
+                      stroke-linecap="round"
+                    />
                   </svg>
                 </button>
                 <button
@@ -82,7 +89,11 @@ function close() {
               </div>
               <!-- Action buttons -->
               <div class="collapsed-actions">
-                <button class="collapsed-action-btn" @click="sidebarCollapsed = false" title="展开菜单">
+                <button
+                  class="collapsed-action-btn"
+                  @click="sidebarCollapsed = false"
+                  title="展开菜单"
+                >
                   <PanelLeft :size="14" />
                 </button>
                 <button class="collapsed-action-btn" title="新开会话">
@@ -154,7 +165,9 @@ function close() {
   flex-direction: column;
   background: var(--background);
   border-radius: 10px;
-  box-shadow: 0 1px 4px hsl(0 0% 0% / 0.06), 0 0 1px hsl(0 0% 0% / 0.04);
+  box-shadow:
+    0 1px 4px hsl(0 0% 0% / 0.06),
+    0 0 1px hsl(0 0% 0% / 0.04);
   overflow: hidden;
   pointer-events: auto;
   transition: margin-left 0.2s ease;
@@ -251,7 +264,9 @@ function close() {
   justify-content: center;
   padding: 0;
   outline: none;
-  transition: color 0.15s, background-color 0.15s;
+  transition:
+    color 0.15s,
+    background-color 0.15s;
 }
 
 .collapsed-action-btn:hover {
@@ -289,12 +304,26 @@ function close() {
   filter: brightness(0.7);
 }
 
-.traffic-light-close { background: #ff5f57; }
-.traffic-light-minimize { background: #febc2e; }
-.traffic-light-maximize { background: #28c840; }
+.traffic-light-close {
+  background: #ff5f57;
+}
+.traffic-light-minimize {
+  background: #febc2e;
+}
+.traffic-light-maximize {
+  background: #28c840;
+}
 
-.traffic-light.show-icon { color: hsl(0 0% 0% / 0.45); }
-.traffic-light-close.show-icon { background: #ff4136; }
-.traffic-light-minimize.show-icon { background: #f5b400; }
-.traffic-light-maximize.show-icon { background: #17ad31; }
+.traffic-light.show-icon {
+  color: hsl(0 0% 0% / 0.45);
+}
+.traffic-light-close.show-icon {
+  background: #ff4136;
+}
+.traffic-light-minimize.show-icon {
+  background: #f5b400;
+}
+.traffic-light-maximize.show-icon {
+  background: #17ad31;
+}
 </style>

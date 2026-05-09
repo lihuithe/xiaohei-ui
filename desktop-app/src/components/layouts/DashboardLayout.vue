@@ -1,13 +1,5 @@
 <script setup lang="ts">
-import {
-  LayoutDashboard,
-  Users,
-  Settings,
-  BarChart3,
-  Bell,
-  Search,
-  Menu,
-} from 'lucide-vue-next'
+import { LayoutDashboard, Users, Settings, BarChart3, Bell, Search, Menu } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -33,7 +25,9 @@ const recentActivities = [
     <!-- Sidebar -->
     <aside class="w-64 border-r bg-card p-4">
       <div class="flex items-center gap-2 mb-8">
-        <div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-primary-foreground">
+        <div
+          class="w-8 h-8 rounded bg-primary flex items-center justify-center text-primary-foreground"
+        >
           <LayoutDashboard size="16" />
         </div>
         <span class="font-semibold text-lg">Dashboard</span>
@@ -68,7 +62,9 @@ const recentActivities = [
             <Menu class="h-5 w-5" />
           </Button>
           <div class="relative w-64">
-            <Search class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Search
+              class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"
+            />
             <Input placeholder="搜索..." class="pl-9" />
           </div>
         </div>
@@ -94,7 +90,9 @@ const recentActivities = [
         <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card v-for="stat in stats" :key="stat.title">
             <CardHeader class="pb-2">
-              <CardTitle class="text-sm font-medium text-muted-foreground">{{ stat.title }}</CardTitle>
+              <CardTitle class="text-sm font-medium text-muted-foreground">{{
+                stat.title
+              }}</CardTitle>
             </CardHeader>
             <CardContent>
               <div class="text-2xl font-bold">{{ stat.value }}</div>
@@ -112,7 +110,11 @@ const recentActivities = [
           </CardHeader>
           <CardContent>
             <div class="space-y-4">
-              <div v-for="activity in recentActivities" :key="activity.time" class="flex items-center justify-between">
+              <div
+                v-for="activity in recentActivities"
+                :key="activity.time"
+                class="flex items-center justify-between"
+              >
                 <div class="flex items-center gap-3">
                   <Avatar>
                     <AvatarFallback>{{ activity.user[0] }}</AvatarFallback>
