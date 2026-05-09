@@ -31,7 +31,11 @@ function close() {
 
 <template>
   <!-- macOS Traffic Lights -->
-  <div v-if="platform === 'darwin'" class="titlebar mac-titlebar" @dblclick="handleDoubleClick">
+  <div
+    v-if="platform === 'darwin'"
+    class="titlebar mac-titlebar"
+    @dblclick="handleDoubleClick"
+  >
     <div
       class="traffic-lights"
       @mouseenter="isHoveringGroup = true"
@@ -43,12 +47,7 @@ function close() {
         @click="close"
       >
         <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
-          <path
-            d="M1.5 1.5L6.5 6.5M6.5 1.5L1.5 6.5"
-            stroke="currentColor"
-            stroke-width="1.2"
-            stroke-linecap="round"
-          />
+          <path d="M1.5 1.5L6.5 6.5M6.5 1.5L1.5 6.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
         </svg>
       </button>
       <button
@@ -66,22 +65,10 @@ function close() {
         @click="maximize"
       >
         <svg v-if="!isMaximized" width="8" height="8" viewBox="0 0 8 8" fill="none">
-          <path
-            d="M1 3V1H3M5 1H7V3M7 5V7H5M3 7H1V5"
-            stroke="currentColor"
-            stroke-width="1"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
+          <path d="M1 3V1H3M5 1H7V3M7 5V7H5M3 7H1V5" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
         <svg v-else width="8" height="8" viewBox="0 0 8 8" fill="none">
-          <path
-            d="M1 3V1H3M5 1H7V3M7 5V7H5M3 7H1V5"
-            stroke="currentColor"
-            stroke-width="1"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
+          <path d="M1 3V1H3M5 1H7V3M7 5V7H5M3 7H1V5" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </button>
     </div>
@@ -89,7 +76,11 @@ function close() {
   </div>
 
   <!-- Windows Title Bar -->
-  <div v-else class="titlebar win-titlebar" @dblclick="handleDoubleClick">
+  <div
+    v-else
+    class="titlebar win-titlebar"
+    @dblclick="handleDoubleClick"
+  >
     <span class="titlebar-title text-xs">Electron Vue3 App</span>
     <div class="win-controls">
       <button class="win-btn" @click="minimize" title="最小化">

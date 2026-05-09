@@ -44,9 +44,7 @@ addPadding(SOURCE, paddedSource, 0.1)
 const sizes = [16, 32, 48, 64, 128, 256, 512, 1024]
 console.log('Generating app icon sizes...')
 for (const size of sizes) {
-  execSync(`sips -z ${size} ${size} "${paddedSource}" --out "${OUT}/icon-${size}x${size}.png"`, {
-    stdio: 'inherit',
-  })
+  execSync(`sips -z ${size} ${size} "${paddedSource}" --out "${OUT}/icon-${size}x${size}.png"`, { stdio: 'inherit' })
 }
 
 // Step 3b: Generate tray icon sizes from original source (no padding)

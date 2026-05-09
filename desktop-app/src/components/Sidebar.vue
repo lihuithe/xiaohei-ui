@@ -1,20 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import {
-  Settings,
-  PanelLeft,
-  Maximize2,
-  Minimize2,
-  MessageSquare,
-  Search,
-  Puzzle,
-  Zap,
-  Plus,
-  Sun,
-  Moon,
-  Monitor,
-} from 'lucide-vue-next'
-import { useTheme } from '@/composables/useTheme'
+import { ref, onMounted, computed } from 'vue'
+import { Settings, PanelLeft, Maximize2, Minimize2, MessageSquare, Search, Puzzle, Zap, Plus, Trash2 } from 'lucide-vue-next'
+import { useConversationStore } from '@/stores/conversationStore'
 
 const props = defineProps<{
   collapsed: boolean
@@ -22,6 +9,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'update:collapsed', value: boolean): void
+  (e: 'open-settings'): void
 }>()
 
 const api = window.electronAPI
@@ -29,12 +17,16 @@ const platform = api?.platform ?? 'darwin'
 const isMaximized = ref(false)
 const isHoveringGroup = ref(false)
 const activeNav = ref('chat')
-const { theme, toggleTheme } = useTheme()
+const conversationStore = useConversationStore()
 
-onMounted(() => {
+const conversations = computed(() => conversationStore.conversationList)
+const activeConversationId = computed(() => conversationStore.activeConversationId)
+
+onMounted(async () => {
   api?.onWindowStateChanged?.((state: string) => {
     isMaximized.value = state === 'maximized'
   })
+  await conversationStore.loadFromStore()
 })
 
 const navItems = [
@@ -42,12 +34,6 @@ const navItems = [
   { id: 'search', label: '搜索', icon: Search },
   { id: 'plugins', label: '插件', icon: Puzzle },
   { id: 'automation', label: '自动化', icon: Zap },
-]
-
-const conversations = [
-  { id: 1, name: '日常工作助手', active: true },
-  { id: 2, name: '代码生成器', active: false },
-  { id: 3, name: '文档整理', active: false },
 ]
 
 function handleDoubleClick() {
@@ -70,24 +56,50 @@ function toggleCollapse() {
   emit('update:collapsed', !props.collapsed)
 }
 
-function getThemeIcon() {
-  if (theme.value === 'light') return Sun
-  if (theme.value === 'dark') return Moon
-  return Monitor
+function handleNewConversation() {
+  conversationStore.createConversation()
 }
 
-function getThemeTitle() {
-  if (theme.value === 'light') return '浅色模式'
-  if (theme.value === 'dark') return '深色模式'
-  return '跟随系统'
+function handleSelectConversation(id: string) {
+  conversationStore.setActiveConversation(id)
+}
+
+async function handleDeleteConversation(e: Event, id: string) {
+  e.stopPropagation()
+  await conversationStore.deleteConversation(id)
+}
+
+function handleNavKeydown(event: KeyboardEvent, currentIndex: number) {
+  const totalItems = navItems.length
+
+  if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
+    event.preventDefault()
+    const nextIndex = (currentIndex + 1) % totalItems
+    const buttons = document.querySelectorAll('.sidebar-nav .nav-item')
+    ;(buttons[nextIndex] as HTMLElement)?.focus()
+  } else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
+    event.preventDefault()
+    const prevIndex = (currentIndex - 1 + totalItems) % totalItems
+    const buttons = document.querySelectorAll('.sidebar-nav .nav-item')
+    ;(buttons[prevIndex] as HTMLElement)?.focus()
+  } else if (event.key === 'Home') {
+    event.preventDefault()
+    const buttons = document.querySelectorAll('.sidebar-nav .nav-item')
+    ;(buttons[0] as HTMLElement)?.focus()
+  } else if (event.key === 'End') {
+    event.preventDefault()
+    const buttons = document.querySelectorAll('.sidebar-nav .nav-item')
+    ;(buttons[totalItems - 1] as HTMLElement)?.focus()
+  }
 }
 </script>
 
 <template>
   <aside class="sidebar" :class="{ 'sidebar-collapsed': collapsed }">
-    <!-- Drag region + macOS traffic lights -->
-    <div class="sidebar-drag-area" @dblclick="handleDoubleClick">
-      <!-- macOS Traffic Lights -->
+    <div
+      class="sidebar-drag-area"
+      @dblclick="handleDoubleClick"
+    >
       <div
         v-if="platform === 'darwin'"
         class="traffic-lights"
@@ -100,12 +112,7 @@ function getThemeTitle() {
           @click="close"
         >
           <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
-            <path
-              d="M1.5 1.5L6.5 6.5M6.5 1.5L1.5 6.5"
-              stroke="currentColor"
-              stroke-width="1.2"
-              stroke-linecap="round"
-            />
+            <path d="M1.5 1.5L6.5 6.5M6.5 1.5L1.5 6.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
           </svg>
         </button>
         <button
@@ -127,18 +134,15 @@ function getThemeTitle() {
         </button>
       </div>
 
-      <!-- Collapse toggle (panel icon) -->
       <div class="sidebar-titlebar-actions" @dblclick.stop>
         <button class="titlebar-action-btn" @click="toggleCollapse" title="收起菜单">
           <PanelLeft :size="14" />
         </button>
       </div>
 
-      <!-- Spacer for Windows -->
       <div v-if="platform !== 'darwin'" class="drag-spacer" />
     </div>
 
-    <!-- Navigation — hidden when collapsed -->
     <nav class="sidebar-nav">
       <button
         v-for="item in navItems"
@@ -155,11 +159,10 @@ function getThemeTitle() {
       </button>
     </nav>
 
-    <!-- Conversation list -->
     <div class="sidebar-section">
       <div class="section-header">
         <span class="section-title text-xs">对话</span>
-        <button class="section-action" title="新建对话">
+        <button class="section-action" title="新建对话" @click="handleNewConversation">
           <Plus :size="14" />
         </button>
       </div>
@@ -168,26 +171,30 @@ function getThemeTitle() {
           v-for="conv in conversations"
           :key="conv.id"
           class="project-item text-xs"
-          :class="{ 'project-item-active': conv.active }"
+          :class="{ 'project-item-active': conv.id === activeConversationId }"
+          @click="handleSelectConversation(conv.id)"
         >
           <span class="project-name">{{ conv.name }}</span>
+          <button
+            class="project-delete-btn"
+            title="删除对话"
+            @click="handleDeleteConversation($event, conv.id)"
+          >
+            <Trash2 :size="12" />
+          </button>
         </button>
+        <div v-if="conversations.length === 0" class="empty-state text-xs">
+          暂无对话
+        </div>
       </div>
     </div>
 
-    <!-- Bottom: Settings & Theme Toggle -->
     <div class="sidebar-bottom">
-      <button class="nav-item text-xs" :title="getThemeTitle()" @click="toggleTheme">
-        <span class="nav-icon">
-          <component :is="getThemeIcon()" :size="16" />
-        </span>
-        <span v-if="!collapsed" class="nav-label">{{ getThemeTitle() }}</span>
-      </button>
-      <button class="nav-item text-xs" title="设置">
+      <button class="nav-item text-xs" :title="$t('sidebar.settings')" @click="emit('open-settings')">
         <span class="nav-icon">
           <Settings :size="18" />
         </span>
-        <span v-if="!collapsed" class="nav-label">设置</span>
+        <span v-if="!collapsed" class="nav-label">{{ $t('sidebar.settings') }}</span>
       </button>
     </div>
   </aside>
@@ -205,23 +212,16 @@ function getThemeTitle() {
   flex-direction: column;
   padding: 0 10px 0 10px;
   padding-right: 20px;
-  background: var(--sidebar);
+  background: rgba(242, 242, 242, 0.98) !important;
   user-select: none;
   overflow: visible;
   border-radius: 10px 0 0 10px;
-  transition:
-    width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.3s ease-out;
 }
 
 .sidebar-collapsed {
-  width: 0;
-  padding: 0;
   pointer-events: none;
-  opacity: 0;
 }
 
-/* Extend background 12px to the right for content area overlap */
 .sidebar::after {
   content: '';
   position: absolute;
@@ -229,11 +229,10 @@ function getThemeTitle() {
   right: -12px;
   bottom: 0;
   width: 12px;
-  background: var(--sidebar);
+  background: rgba(242, 242, 242, 0.98) !important;
   pointer-events: none;
 }
 
-/* Drag area at top of sidebar */
 .sidebar-drag-area {
   -webkit-app-region: drag;
   display: flex;
@@ -244,7 +243,6 @@ function getThemeTitle() {
   padding-bottom: 11px;
 }
 
-/* Titlebar action buttons */
 .sidebar-titlebar-actions {
   display: flex;
   align-items: center;
@@ -265,9 +263,7 @@ function getThemeTitle() {
   justify-content: center;
   padding: 0;
   outline: none;
-  transition:
-    color 0.15s,
-    background-color 0.15s;
+  transition: color 0.15s, background-color 0.15s;
 }
 
 .titlebar-action-btn:hover {
@@ -283,7 +279,6 @@ function getThemeTitle() {
   flex: 1;
 }
 
-/* Traffic lights */
 .traffic-lights {
   display: flex;
   gap: 8px;
@@ -310,30 +305,15 @@ function getThemeTitle() {
   filter: brightness(0.7);
 }
 
-.traffic-light-close {
-  background: #ff5f57;
-}
-.traffic-light-minimize {
-  background: #febc2e;
-}
-.traffic-light-maximize {
-  background: #28c840;
-}
+.traffic-light-close { background: #ff5f57; }
+.traffic-light-minimize { background: #febc2e; }
+.traffic-light-maximize { background: #28c840; }
 
-.traffic-light.show-icon {
-  color: hsl(0 0% 0% / 0.45);
-}
-.traffic-light-close.show-icon {
-  background: #ff4136;
-}
-.traffic-light-minimize.show-icon {
-  background: #f5b400;
-}
-.traffic-light-maximize.show-icon {
-  background: #17ad31;
-}
+.traffic-light.show-icon { color: hsl(0 0% 0% / 0.45); }
+.traffic-light-close.show-icon { background: #ff4136; }
+.traffic-light-minimize.show-icon { background: #f5b400; }
+.traffic-light-maximize.show-icon { background: #17ad31; }
 
-/* Navigation */
 .sidebar-nav {
   display: flex;
   flex-direction: column;
@@ -352,9 +332,7 @@ function getThemeTitle() {
   cursor: pointer;
   width: 100%;
   text-align: left;
-  transition:
-    background-color 0.1s,
-    color 0.1s;
+  transition: background-color 0.1s, color 0.1s;
   white-space: nowrap;
 }
 
@@ -383,7 +361,6 @@ function getThemeTitle() {
   line-height: 1;
 }
 
-/* Section */
 .sidebar-section {
   flex: 1;
   overflow-y: auto;
@@ -421,7 +398,6 @@ function getThemeTitle() {
   color: var(--sidebar-foreground);
 }
 
-/* Project list */
 .project-list {
   display: flex;
   flex-direction: column;
@@ -433,6 +409,7 @@ function getThemeTitle() {
   align-items: center;
   gap: 8px;
   padding: 8px 10px;
+  padding-right: 6px;
   border-radius: var(--radius-md);
   border: none;
   background: transparent;
@@ -444,11 +421,37 @@ function getThemeTitle() {
 }
 
 .project-item:hover {
-  background: var(--sidebar-accent);
+  background: hsl(0 0% 0% / 0.05);
+}
+
+.project-item:hover .project-delete-btn {
+  opacity: 1;
 }
 
 .project-item-active {
   background: hsl(0 0% 0% / 0.07);
+}
+
+.project-delete-btn {
+  opacity: 0;
+  margin-left: auto;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: transparent;
+  color: var(--muted-foreground);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.15s, background-color 0.15s;
+}
+
+.project-delete-btn:hover {
+  background: hsl(0 0% 0% / 0.08);
+  color: var(--destructive);
 }
 
 .project-dot {
@@ -465,13 +468,19 @@ function getThemeTitle() {
 }
 
 .project-name {
+  flex: 1;
   line-height: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-/* Bottom */
+.empty-state {
+  padding: 10px;
+  text-align: center;
+  color: var(--muted-foreground);
+}
+
 .sidebar-bottom {
   padding-top: 4px;
   padding-bottom: 10px;

@@ -9,9 +9,10 @@
     "build": "vue-tsc -b && vite build",
     "generate:icons": "node scripts/generate-icons.mjs",
     "preview": "vite preview",
-    "lint": "eslint . --fix",
-    "format": "prettier --write .",
-    "type-check": "vue-tsc --noEmit"
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
+    "lint:check": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts",
+    "format": "prettier --write \"**/*.{vue,js,jsx,ts,tsx,mjs,cjs,json,css,html,md}\"",
+    "format:check": "prettier --check \"**/*.{vue,js,jsx,ts,tsx,mjs,cjs,json,css,html,md}\""
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.4",
@@ -20,11 +21,10 @@
     "@vueuse/core": "^14.3.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "dayjs": "^1.11.20",
+    "electron-store": "^11.0.2",
+    "electron-updater": "^6.8.3",
     "embla-carousel-vue": "^8.6.0",
-    "highlight.js": "^11.11.1",
     "lucide-vue-next": "^1.0.0",
-    "markdown-it": "^14.1.1",
     "reka-ui": "^2.9.7",
     "shadcn-vue": "^2.6.2",
     "tailwind-merge": "^3.5.0",
@@ -33,32 +33,30 @@
     "vaul-vue": "^0.4.1",
     "vee-validate": "^4.15.1",
     "vue": "^3.5.32",
-    "vue-i18n": "^9.14.5",
     "vue-input-otp": "^0.3.2",
-    "vue-router": "^4.6.4",
     "vue-sonner": "^2.0.9",
     "zod": "3.25.76"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
     "@types/node": "^25.6.0",
-    "@typescript-eslint/parser": "^8.59.2",
+    "@typescript-eslint/eslint-plugin": "8",
+    "@typescript-eslint/parser": "8",
     "@vitejs/plugin-vue": "^6.0.6",
     "@vue/tsconfig": "^0.9.1",
     "electron": "^41.5.0",
     "electron-builder": "^26.8.1",
     "esbuild": "^0.28.0",
-    "eslint": "^10.3.0",
+    "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
-    "eslint-plugin-vue": "^10.9.1",
+    "eslint-plugin-vue": "^9.33.0",
     "pngjs": "^7.0.0",
     "prettier": "^3.8.3",
     "typescript": "~6.0.2",
-    "typescript-eslint": "^8.59.2",
     "vite": "^8.0.10",
     "vite-plugin-electron": "^0.29.1",
     "vite-plugin-electron-renderer": "^0.14.7",
+    "vue-eslint-parser": "^10.4.0",
     "vue-tsc": "^3.2.7"
   },
   "build": {
@@ -77,11 +75,33 @@
         "to": "icons"
       }
     ],
+    "publish": {
+      "provider": "generic",
+      "url": "https://your-update-server.com/releases"
+    },
     "mac": {
       "icon": "resources/icons/icon.icns"
     },
     "win": {
-      "icon": "resources/icons/icon.ico"
+      "icon": "resources/icons/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "artifactName": "${productName}-${version}-Setup.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "小黑助手",
+      "installerIcon": "resources/icons/icon.ico",
+      "uninstallerIcon": "resources/icons/icon.ico",
+      "installerHeaderIcon": "resources/icons/icon.ico",
+      "deleteAppDataOnUninstall": false
     },
     "linux": {
       "icon": "resources/icons/icon.png"

@@ -23,7 +23,7 @@ export default defineConfig({
         if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
         fs.copyFileSync(
           path.resolve(__dirname, 'electron/preload.cjs'),
-          path.resolve(dir, 'preload.cjs')
+          path.resolve(dir, 'preload.cjs'),
         )
       },
     },
@@ -31,33 +31,6 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-    },
-  },
-  build: {
-    target: 'esnext',
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-      },
-    },
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          'vue-vendor': ['vue', 'vue-router', 'pinia'],
-          'ui-vendor': ['lucide-vue-next', 'shadcn-vue'],
-        },
-        chunkFileNames: 'assets/js/[name]-[hash].js',
-        entryFileNames: 'assets/js/[name]-[hash].js',
-        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
-      },
-    },
-    chunkSizeWarningLimit: 1000,
-  },
-  server: {
-    hmr: {
-      overlay: true,
     },
   },
 })
