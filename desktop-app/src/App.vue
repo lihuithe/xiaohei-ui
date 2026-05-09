@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { SquarePen, PanelLeft, Maximize2, Minimize2 } from 'lucide-vue-next'
+import { SquarePen, PanelLeft, Maximize2, Minimize2, Search } from 'lucide-vue-next'
+import { Button } from '@/components/ui/button'
 import Sidebar from '@/components/Sidebar.vue'
-import { RouterView } from 'vue-router'
+import SearchDialog from '@/components/SearchDialog.vue'
+import { useSearch } from '@/composables/useSearch'
 
 const api = window.electronAPI
 const platform = api?.platform ?? 'darwin'
 const isMaximized = ref(false)
 const isHoveringGroup = ref(false)
 const sidebarCollapsed = ref(false)
+const { openSearchDialog } = useSearch()
 
 onMounted(() => {
   api?.onWindowStateChanged?.((state: string) => {
@@ -31,6 +34,10 @@ function maximize() {
 function close() {
   api?.close?.()
 }
+
+function handleSearchClick() {
+  openSearchDialog()
+}
 </script>
 
 <template>
@@ -39,11 +46,12 @@ function close() {
 
     <main class="main-area">
       <div class="main-content">
-        <!-- Top header bar: collapsed controls + title + window controls -->
-        <div class="content-header" @dblclick="handleDoubleClick">
+        <div
+          class="content-header"
+          @dblclick="handleDoubleClick"
+        >
           <div class="header-left">
             <template v-if="sidebarCollapsed">
-              <!-- macOS Traffic Lights -->
               <div
                 v-if="platform === 'darwin'"
                 class="traffic-lights"
@@ -56,12 +64,7 @@ function close() {
                   @click="close"
                 >
                   <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
-                    <path
-                      d="M1.5 1.5L6.5 6.5M6.5 1.5L1.5 6.5"
-                      stroke="currentColor"
-                      stroke-width="1.2"
-                      stroke-linecap="round"
-                    />
+                    <path d="M1.5 1.5L6.5 6.5M6.5 1.5L1.5 6.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
                   </svg>
                 </button>
                 <button
@@ -70,12 +73,7 @@ function close() {
                   @click="minimize"
                 >
                   <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
-                    <path
-                      d="M1.5 4H6.5"
-                      stroke="currentColor"
-                      stroke-width="1.2"
-                      stroke-linecap="round"
-                    />
+                    <path d="M1.5 4H6.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
                   </svg>
                 </button>
                 <button
@@ -87,7 +85,6 @@ function close() {
                   <Minimize2 v-else :size="8" />
                 </button>
               </div>
-              <!-- Action buttons -->
               <div class="collapsed-actions">
                 <button
                   class="collapsed-action-btn"
@@ -96,15 +93,14 @@ function close() {
                 >
                   <PanelLeft :size="14" />
                 </button>
-                <button class="collapsed-action-btn" title="新开会话">
+                <button class="collapsed-action-btn" :title="'新开会话'">
                   <SquarePen :size="14" />
                 </button>
               </div>
             </template>
-            <span class="header-title text-sm font-medium">日常工作助手</span>
+            <span class="header-title text-sm font-medium">'日常工作助手'</span>
           </div>
 
-          <!-- Windows controls -->
           <div v-if="platform === 'win32'" class="win-controls">
             <button class="win-btn" title="最小化" @click="minimize">
               <svg width="10" height="1" viewBox="0 0 10 1">
@@ -128,12 +124,49 @@ function close() {
           </div>
         </div>
 
-        <!-- Main content -->
         <div class="content-body">
-          <RouterView />
+          <div class="content-welcome">
+            <h1 class="text-3xl font-semibold tracking-tight">欢迎使用小黑助手</h1>
+            <p class="text-muted-foreground mt-2">选择一个对话开始，或创建新的对话</p>
+
+            <div class="mt-8 flex gap-3 flex-wrap">
+              <Button>开始对话</Button>
+              <Button variant="outline">新建项目</Button>
+              <Button variant="secondary">浏览插件</Button>
+            </div>
+
+            <div class="mt-10 grid grid-cols-2 gap-4 max-w-lg">
+              <button class="rounded-lg border p-4 text-left hover:bg-accent transition-colors" @click="handleSearchClick">
+                <h3 class="font-medium text-sm">快速搜索</h3>
+                <p class="text-xs text-muted-foreground mt-1">使用自然语言搜索你的数据</p>
+              </button>
+              <div class="rounded-lg border p-4">
+                <h3 class="font-medium text-sm">自动化工作流</h3>
+                <p class="text-xs text-muted-foreground mt-1">配置自动化任务提效</p>
+              </div>
+              <div class="rounded-lg border p-4">
+                <h3 class="font-medium text-sm">插件市场</h3>
+                <p class="text-xs text-muted-foreground mt-1">发现和安装实用插件</p>
+              </div>
+              <div class="rounded-lg border p-4">
+                <h3 class="font-medium text-sm">智能助手</h3>
+                <p class="text-xs text-muted-foreground mt-1">AI 驱动的日常助手服务</p>
+              </div>
+            </div>
+
+            <div class="mt-6 flex items-center gap-3">
+              <Button @click="handleSearchClick" class="gap-2">
+                <Search :size="16" />
+                搜索对话历史
+              </Button>
+              <span class="text-xs text-muted-foreground">⌘K</span>
+            </div>
+          </div>
         </div>
       </div>
     </main>
+
+    <SearchDialog />
   </div>
 </template>
 
@@ -145,7 +178,6 @@ function close() {
   background: transparent;
 }
 
-/* Main area: transparent shell covering full viewport */
 .main-area {
   position: absolute;
   top: 0;
@@ -157,7 +189,6 @@ function close() {
   pointer-events: none;
 }
 
-/* Actual content: overlaps sidebar right edge by 12px, solid bg, rounded corners */
 .main-content {
   margin-left: max(0px, calc(var(--sidebar-w) - 12px));
   height: 100%;
@@ -165,15 +196,12 @@ function close() {
   flex-direction: column;
   background: var(--background);
   border-radius: 10px;
-  box-shadow:
-    0 1px 4px hsl(0 0% 0% / 0.06),
-    0 0 1px hsl(0 0% 0% / 0.04);
+  box-shadow: 0 1px 4px hsl(0 0% 0% / 0.06), 0 0 1px hsl(0 0% 0% / 0.04);
   overflow: hidden;
   pointer-events: auto;
   transition: margin-left 0.2s ease;
 }
 
-/* Top drag strip */
 .content-header {
   height: 38px;
   -webkit-app-region: drag;
@@ -198,7 +226,6 @@ function close() {
   color: var(--muted-foreground);
 }
 
-/* Windows controls */
 .win-controls {
   display: flex;
   height: 100%;
@@ -229,7 +256,6 @@ function close() {
   border-top-right-radius: 10px;
 }
 
-/* Content body */
 .content-body {
   flex: 1;
   overflow-y: auto;
@@ -264,9 +290,7 @@ function close() {
   justify-content: center;
   padding: 0;
   outline: none;
-  transition:
-    color 0.15s,
-    background-color 0.15s;
+  transition: color 0.15s, background-color 0.15s;
 }
 
 .collapsed-action-btn:hover {
@@ -278,7 +302,6 @@ function close() {
   background: hsl(0 0% 0% / 0.08);
 }
 
-/* Traffic lights (for collapsed header) */
 .traffic-lights {
   display: flex;
   gap: 8px;
@@ -304,26 +327,12 @@ function close() {
   filter: brightness(0.7);
 }
 
-.traffic-light-close {
-  background: #ff5f57;
-}
-.traffic-light-minimize {
-  background: #febc2e;
-}
-.traffic-light-maximize {
-  background: #28c840;
-}
+.traffic-light-close { background: #ff5f57; }
+.traffic-light-minimize { background: #febc2e; }
+.traffic-light-maximize { background: #28c840; }
 
-.traffic-light.show-icon {
-  color: hsl(0 0% 0% / 0.45);
-}
-.traffic-light-close.show-icon {
-  background: #ff4136;
-}
-.traffic-light-minimize.show-icon {
-  background: #f5b400;
-}
-.traffic-light-maximize.show-icon {
-  background: #17ad31;
-}
+.traffic-light.show-icon { color: hsl(0 0% 0% / 0.45); }
+.traffic-light-close.show-icon { background: #ff4136; }
+.traffic-light-minimize.show-icon { background: #f5b400; }
+.traffic-light-maximize.show-icon { background: #17ad31; }
 </style>

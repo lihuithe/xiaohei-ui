@@ -1,6 +1,30 @@
-import { app, BrowserWindow, ipcMain, Tray, Menu, nativeImage } from 'electron'
+import { app, BrowserWindow, ipcMain, Tray, Menu, nativeImage, screen } from 'electron'
+import { autoUpdater } from 'electron-updater'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import Store from 'electron-store'
+
+interface WindowState {
+  x?: number
+  y?: number
+  width: number
+  height: number
+  isMaximized: boolean
+}
+
+interface StoreSchema {
+  windowState: WindowState
+}
+
+const store = new Store<StoreSchema>({
+  defaults: {
+    windowState: {
+      width: 1200,
+      height: 800,
+      isMaximized: false,
+    },
+  },
+})
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -16,13 +40,65 @@ function getIconPath(filename: string): string {
     : path.join(process.resourcesPath, 'icons', filename)
 }
 
+function getWindowState(): WindowState {
+  const defaultState: WindowState = {
+    width: 1200,
+    height: 800,
+    isMaximized: false,
+  }
+
+  const savedState = store.get('windowState', defaultState)
+
+  const displays = screen.getAllDisplays()
+
+  if (savedState.x !== undefined && savedState.y !== undefined) {
+    const isOnScreen = displays.some((display) => {
+      const { x, y, width, height } = display.bounds
+      return (
+        savedState.x! >= x &&
+        savedState.x! < x + width &&
+        savedState.y! >= y &&
+        savedState.y! < y + height
+      )
+    })
+
+    if (!isOnScreen) {
+      return defaultState
+    }
+  } else {
+    return defaultState
+  }
+
+  return savedState
+}
+
+function saveWindowState(): void {
+  if (!win) return
+
+  const isMaximized = win.isMaximized()
+
+  if (!isMaximized) {
+    const bounds = win.getBounds()
+    store.set('windowState', {
+      x: bounds.x,
+      y: bounds.y,
+      width: bounds.width,
+      height: bounds.height,
+      isMaximized: false,
+    })
+  } else {
+    const currentState = store.get('windowState')
+    store.set('windowState', {
+      ...currentState,
+      isMaximized: true,
+    })
+  }
+}
+
 function createTrayIcon() {
   if (process.platform === 'darwin') {
-    return nativeImage
-      .createFromPath(getIconPath('tray-icon-mac.png'))
-      .resize({ width: 22, height: 22 })
+    return nativeImage.createFromPath(getIconPath('tray-icon-mac.png')).resize({ width: 22, height: 22 })
   }
-  // Windows: 使用 64x64 高分辨率托盘图标，适配高 DPI 屏幕
   return nativeImage.createFromPath(getIconPath('tray-icon.png'))
 }
 
@@ -61,20 +137,23 @@ function createTray() {
 
 function createWindow() {
   const isMac = process.platform === 'darwin'
+  const windowState = getWindowState()
+
   win = new BrowserWindow({
-    width: 1200,
-    height: 800,
+    x: windowState.x,
+    y: windowState.y,
+    width: windowState.width,
+    height: windowState.height,
     frame: false,
     transparent: true,
     backgroundColor: '#00000000',
     ...(process.platform === 'darwin'
-      ? {
-          vibrancy: 'light',
-          visualEffectState: 'active',
-        }
-      : {}),
+    ? {
+        vibrancy: 'light',
+        visualEffectState: 'active',
+      }
+    : {}),
     icon: getIconPath(process.platform === 'win32' ? 'icon-win.png' : 'icon.png'),
-    // Windows 下隐藏到托盘时跳过任务栏
     skipTaskbar: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'),
@@ -83,7 +162,13 @@ function createWindow() {
     },
   })
 
-  win.center()
+  if (windowState.x === undefined || windowState.y === undefined) {
+    win.center()
+  }
+
+  if (windowState.isMaximized) {
+    win.maximize()
+  }
 
   if (process.env.VITE_DEV_SERVER_URL) {
     win.loadURL(process.env.VITE_DEV_SERVER_URL)
@@ -99,8 +184,8 @@ function createWindow() {
     win?.webContents.send('window-state-changed', 'normal')
   })
 
-  // 关闭时隐藏到托盘而不是退出
   win.on('close', (e) => {
+    saveWindowState()
     if (tray) {
       e.preventDefault()
       win?.hide()
@@ -112,7 +197,6 @@ function createWindow() {
   })
 }
 
-// Window control IPC handlers
 ipcMain.on('window-minimize', () => win?.minimize())
 ipcMain.on('window-maximize', () => {
   if (win?.isMaximized()) {
@@ -129,13 +213,59 @@ ipcMain.on('window-close', () => {
   }
 })
 
+function setupAutoUpdater() {
+  autoUpdater.autoDownload = false
+  autoUpdater.autoInstallOnAppQuit = true
+
+  autoUpdater.on('checking-for-update', () => {
+    win?.webContents.send('update-status', { status: 'checking' })
+  })
+
+  autoUpdater.on('update-available', (info) => {
+    win?.webContents.send('update-status', { status: 'available', info })
+  })
+
+  autoUpdater.on('update-not-available', (info) => {
+    win?.webContents.send('update-status', { status: 'not-available', info })
+  })
+
+  autoUpdater.on('download-progress', (progressObj) => {
+    win?.webContents.send('update-status', { status: 'downloading', progress: progressObj })
+  })
+
+  autoUpdater.on('update-downloaded', (info) => {
+    win?.webContents.send('update-status', { status: 'downloaded', info })
+  })
+
+  autoUpdater.on('error', (err) => {
+    win?.webContents.send('update-status', { status: 'error', error: err.message })
+  })
+}
+
+ipcMain.handle('check-for-update', async () => {
+  try {
+    const result = await autoUpdater.checkForUpdates()
+    return result
+  } catch (err) {
+    return null
+  }
+})
+
+ipcMain.on('download-update', () => {
+  autoUpdater.downloadUpdate()
+})
+
+ipcMain.on('install-update', () => {
+  autoUpdater.quitAndInstall()
+})
+
 app.whenReady().then(() => {
-  // macOS: 开发模式下手动设置 Dock 图标
   if (process.platform === 'darwin') {
     app.dock.setIcon(getIconPath('icon.png'))
   }
   createWindow()
   createTray()
+  setupAutoUpdater()
 })
 
 app.on('window-all-closed', () => {
@@ -154,6 +284,7 @@ app.on('activate', () => {
 })
 
 app.on('before-quit', () => {
+  saveWindowState()
   tray?.destroy()
   tray = null
 })

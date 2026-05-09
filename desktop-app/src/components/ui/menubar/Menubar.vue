@@ -2,7 +2,10 @@
 import type { MenubarRootEmits, MenubarRootProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
 import { reactiveOmit } from '@vueuse/core'
-import { MenubarRoot, useForwardPropsEmits } from 'reka-ui'
+import {
+  MenubarRoot,
+  useForwardPropsEmits,
+} from 'reka-ui'
 import { cn } from '@/lib/utils'
 
 const props = defineProps<MenubarRootProps & { class?: HTMLAttributes['class'] }>()
@@ -18,7 +21,12 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
     v-slot="slotProps"
     data-slot="menubar"
     v-bind="forwarded"
-    :class="cn('h-8 gap-0.5 rounded-lg border p-[3px] flex items-center', props.class)"
+    :class="
+      cn(
+        'h-8 gap-0.5 rounded-lg border p-[3px] flex items-center',
+        props.class,
+      )
+    "
   >
     <slot v-bind="slotProps" />
   </MenubarRoot>

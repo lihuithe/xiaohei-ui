@@ -48,7 +48,8 @@ function filterItems() {
   for (const [id, value] of allItems.value) {
     const score = contains(value, filterState.search)
     filterState.filtered.items.set(id, score ? 1 : 0)
-    if (score) itemCount++
+    if (score)
+      itemCount++
   }
 
   // Check which groups have at least 1 item shown
@@ -64,12 +65,9 @@ function filterItems() {
   filterState.filtered.count = itemCount
 }
 
-watch(
-  () => filterState.search,
-  () => {
-    filterItems()
-  }
-)
+watch(() => filterState.search, () => {
+  filterItems()
+})
 
 provideCommandContext({
   allItems,
@@ -82,12 +80,7 @@ provideCommandContext({
   <ListboxRoot
     data-slot="command"
     v-bind="forwarded"
-    :class="
-      cn(
-        'bg-popover text-popover-foreground rounded-xl! p-1 flex size-full flex-col overflow-hidden',
-        props.class
-      )
-    "
+    :class="cn('bg-popover text-popover-foreground rounded-xl! p-1 flex size-full flex-col overflow-hidden', props.class)"
   >
     <slot />
   </ListboxRoot>
