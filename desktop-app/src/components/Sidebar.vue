@@ -68,30 +68,6 @@ async function handleDeleteConversation(e: Event, id: string) {
   e.stopPropagation()
   await conversationStore.deleteConversation(id)
 }
-
-function handleNavKeydown(event: KeyboardEvent, currentIndex: number) {
-  const totalItems = navItems.length
-
-  if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
-    event.preventDefault()
-    const nextIndex = (currentIndex + 1) % totalItems
-    const buttons = document.querySelectorAll('.sidebar-nav .nav-item')
-    ;(buttons[nextIndex] as HTMLElement)?.focus()
-  } else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
-    event.preventDefault()
-    const prevIndex = (currentIndex - 1 + totalItems) % totalItems
-    const buttons = document.querySelectorAll('.sidebar-nav .nav-item')
-    ;(buttons[prevIndex] as HTMLElement)?.focus()
-  } else if (event.key === 'Home') {
-    event.preventDefault()
-    const buttons = document.querySelectorAll('.sidebar-nav .nav-item')
-    ;(buttons[0] as HTMLElement)?.focus()
-  } else if (event.key === 'End') {
-    event.preventDefault()
-    const buttons = document.querySelectorAll('.sidebar-nav .nav-item')
-    ;(buttons[totalItems - 1] as HTMLElement)?.focus()
-  }
-}
 </script>
 
 <template>

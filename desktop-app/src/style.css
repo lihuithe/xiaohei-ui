@@ -5,8 +5,6 @@
 
 @import "tw-animate-css";
 
-@import "./styles/animations.css";
-
 @import "shadcn-vue/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
