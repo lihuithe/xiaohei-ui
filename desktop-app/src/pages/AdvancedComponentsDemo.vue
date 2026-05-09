@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import DataTable from '@/components/advanced/DataTable.vue'
 import Chart from '@/components/advanced/Chart.vue'
 import Timeline from '@/components/advanced/Timeline.vue'
 import Tree from '@/components/advanced/Tree.vue'
+import KanbanBoard from '@/components/advanced/KanbanBoard.vue'
+import ColorPicker from '@/components/advanced/ColorPicker.vue'
+import RichTextEditor from '@/components/advanced/RichTextEditor.vue'
 import DynamicForm from '@/components/forms/DynamicForm.vue'
 import FormTemplateLibrary from '@/components/forms/FormTemplateLibrary.vue'
 import FormDataImportExport from '@/components/forms/FormDataImportExport.vue'
@@ -104,6 +107,70 @@ const treeData = ref([
   },
 ])
 
+// 看板示例
+const kanbanColumns = ref([
+  {
+    id: 'todo',
+    title: '待办',
+    cards: [
+      {
+        id: '1',
+        title: '设计新功能原型',
+        description: '完成用户界面设计',
+        priority: 'high',
+        tags: ['设计', 'UI'],
+        dueDate: '2024-05-10',
+      },
+      {
+        id: '2',
+        title: '编写API文档',
+        description: '更新接口文档',
+        priority: 'medium',
+        tags: ['文档'],
+        dueDate: '2024-05-12',
+      },
+    ],
+  },
+  {
+    id: 'inprogress',
+    title: '进行中',
+    cards: [
+      {
+        id: '3',
+        title: '实现用户认证',
+        description: 'JWT令牌系统',
+        priority: 'high',
+        tags: ['后端', '安全'],
+        assignee: '张三',
+        dueDate: '2024-05-15',
+      },
+    ],
+  },
+  {
+    id: 'done',
+    title: '完成',
+    cards: [
+      {
+        id: '4',
+        title: '数据库设计',
+        description: '创建数据库结构',
+        priority: 'low',
+        tags: ['数据库'],
+        dueDate: '2024-05-08',
+      },
+    ],
+  },
+])
+
+// 颜色选择器示例
+const selectedColor = ref('#3b82f6')
+const selectedBgColor = ref('#10b981')
+
+// 富文本示例
+const richTextContent = ref(
+  '<h2>欢迎使用富文本编辑器</h2><p>这是一个功能丰富的编辑器，支持：</p><ul><li><strong>粗体</strong>、<em>斜体</em>、<u>下划线</u></li><li>标题和列表</li><li>引用和代码块</li><li>链接和图片</li></ul><blockquote>好的工具能让工作更高效！</blockquote>'
+)
+
 // 动态表单示例
 const formFields = ref([
   { name: 'name', label: '姓名', type: 'text', placeholder: '请输入姓名', required: true },
@@ -188,8 +255,7 @@ const animatedItems = ref([
   { id: '3', label: '项目三' },
 ])
 
-function handleFormSubmit(values: any) {
-  console.log('表单提交:', values)
+function handleFormSubmit(values: unknown) {
   toast.success('表单提交成功!')
 }
 
@@ -198,6 +264,24 @@ function handleRightClick(event: MouseEvent) {
   contextMenuX.value = event.clientX
   contextMenuY.value = event.clientY
   contextMenuVisible.value = true
+}
+
+// 看板组件引用
+const kanbanRef = ref<InstanceType<typeof KanbanBoard> | null>(null)
+
+onMounted(() => {
+  if (kanbanRef.value && 'initSortable' in kanbanRef.value) {
+    ;(kanbanRef.value as { initSortable: () => void }).initSortable()
+  }
+})
+
+// 看板事件处理
+function handleCardAdd(columnId: string, _card: unknown) {
+  toast.success(`卡片已添加到 ${columnId}`)
+}
+
+function handleCardMove(_from: string, _to: string, _cardId: string, _index: number) {
+  toast.info(`卡片已移动`)
 }
 </script>
 
@@ -240,6 +324,40 @@ function handleRightClick(event: MouseEvent) {
       <section class="demo-section">
         <h2>树形组件</h2>
         <Tree :data="treeData" :default-expand-all="true" />
+      </section>
+
+      <!-- 看板 -->
+      <section class="demo-section">
+        <h2>看板组件</h2>
+        <KanbanBoard
+          ref="kanbanRef"
+          :columns="kanbanColumns"
+          @card-add="handleCardAdd"
+          @card-move="handleCardMove"
+        />
+      </section>
+
+      <!-- 颜色选择器 -->
+      <section class="demo-section">
+        <h2>颜色选择器</h2>
+        <div class="color-picker-demo">
+          <div class="picker-row">
+            <span>主题色：</span>
+            <ColorPicker v-model="selectedColor" />
+            <span class="color-preview-box" :style="{ backgroundColor: selectedColor }"></span>
+          </div>
+          <div class="picker-row">
+            <span>背景色：</span>
+            <ColorPicker v-model="selectedBgColor" />
+            <span class="color-preview-box" :style="{ backgroundColor: selectedBgColor }"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 富文本编辑器 -->
+      <section class="demo-section">
+        <h2>富文本编辑器</h2>
+        <RichTextEditor v-model="richTextContent" placeholder="开始编辑..." />
       </section>
 
       <!-- 动态表单 -->
@@ -392,5 +510,51 @@ function handleRightClick(event: MouseEvent) {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* 新增样式 */
+.color-picker-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.picker-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.color-preview-box {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .advanced-demo-page {
+    padding: 16px;
+  }
+
+  .demo-section {
+    padding: 16px;
+  }
+
+  .demo-header h1 {
+    font-size: 24px;
+  }
+
+  .demo-section h2 {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .picker-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 </style>

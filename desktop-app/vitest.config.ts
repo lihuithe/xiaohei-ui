@@ -12,12 +12,12 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
       include: ['src/**/*.{js,ts,vue}'],
-      exclude: ['src/**/*.d.ts', 'src/main.ts', 'src/**/*.spec.ts', 'src/**/*.test.ts']
-    }
+      exclude: ['src/**/*.d.ts', 'src/main.ts', 'src/**/*.spec.ts', 'src/**/*.test.ts'],
+    },
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src')
-    }
-  }
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
 })

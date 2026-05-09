@@ -16,25 +16,25 @@ const MyPlugin: Plugin = {
     name: 'my-plugin',
     version: '1.0.0',
     description: 'A simple example plugin',
-    author: 'Your Name'
+    author: 'Your Name',
   },
-  
+
   async install(context: PluginContext) {
     // 注册组件
     // context.registerComponent('MyComponent', MyComponent)
-    
+
     // 注册路由
     // context.registerRoute('/my-plugin-page', MyPluginPage)
-    
+
     // 注册命令
     context.registerCommand('greet', (name: string) => {
       return `Hello, ${name}!`
     })
   },
-  
+
   async uninstall() {
     // 清理代码
-  }
+  },
 }
 
 export default MyPlugin
@@ -58,20 +58,20 @@ console.log(result) // Hello, World!
 
 ### PluginMetadata
 
-| Property      | Type     | Required | Description |
-|-------------|----------|----------|-----------|
-| name        | string   | true     | 插件名称  |
-| version     | string   | true     | 版本号    |
-| description | string   | true     | 插件描述  |
-| author      | string   | true     | 作者      |
-| license     | string   | false    | 许可证    |
-| homepage    | string   | false    | 主页地址  |
+| Property    | Type   | Required | Description |
+| ----------- | ------ | -------- | ----------- |
+| name        | string | true     | 插件名称    |
+| version     | string | true     | 版本号      |
+| description | string | true     | 插件描述    |
+| author      | string | true     | 作者        |
+| license     | string | false    | 许可证      |
+| homepage    | string | false    | 主页地址    |
 
 ### PluginContext
 
-| Method           | Description                              |
-|----------------|--------------------------------------|
-| registerComponent | 注册组件 |
-| registerRoute   | 注册路由 |
-| registerStore   | 注册状态管理 |
-| registerCommand | 注册命令 |
+| Method            | Description  |
+| ----------------- | ------------ |
+| registerComponent | 注册组件     |
+| registerRoute     | 注册路由     |
+| registerStore     | 注册状态管理 |
+| registerCommand   | 注册命令     |

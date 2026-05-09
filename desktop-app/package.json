@@ -19,7 +19,14 @@
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.4",
@@ -54,6 +61,13 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.59.1",
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/addon-interactions": "^8.6.14",
+    "@storybook/addon-links": "^8.6.18",
+    "@storybook/blocks": "^8.6.14",
+    "@storybook/testing-library": "^0.2.2",
+    "@storybook/vue3-vite": "^8.6.18",
     "@testing-library/vue": "^8.1.0",
     "@types/node": "^25.6.0",
     "@typescript-eslint/parser": "^8.59.2",
@@ -71,11 +85,13 @@
     "jsdom": "^25.0.1",
     "pngjs": "^7.0.0",
     "prettier": "^3.8.3",
+    "storybook": "^8.6.18",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",
     "vite": "^8.0.10",
     "vite-plugin-electron": "^0.29.1",
     "vite-plugin-electron-renderer": "^0.14.7",
+    "vitepress": "^1.6.4",
     "vitest": "^2.1.8",
     "vue-tsc": "^3.2.7"
   },
