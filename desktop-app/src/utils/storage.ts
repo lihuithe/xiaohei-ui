@@ -20,7 +20,7 @@ export const storage = {
   },
   clear: () => {
     localStorage.clear()
-  }
+  },
 }
 
 export const sessionStorage = {
@@ -45,5 +45,5 @@ export const sessionStorage = {
   },
   clear: () => {
     sessionStorage.clear()
-  }
+  },
 }

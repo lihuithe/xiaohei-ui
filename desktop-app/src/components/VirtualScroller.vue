@@ -1,10 +1,5 @@
 <template>
-  <RecycleScroller
-    :items="items"
-    :item-size="itemSize"
-    :key-field="keyField"
-    v-slot="{ item }"
-  >
+  <RecycleScroller v-slot="{ item }" :items="items" :item-size="itemSize" :key-field="keyField">
     <slot :item="item"></slot>
   </RecycleScroller>
 </template>
@@ -24,4 +19,3 @@ withDefaults(defineProps<Props>(), {
   keyField: 'id',
 })
 </script>
-

@@ -12,12 +12,7 @@
       >
         {{ item.title }}
       </router-link>
-      <span
-        v-if="index < breadcrumbs.length - 1"
-        class="text-muted-foreground"
-      >
-        /
-      </span>
+      <span v-if="index < breadcrumbs.length - 1" class="text-muted-foreground"> / </span>
     </template>
   </nav>
 </template>
@@ -29,4 +24,3 @@ import { computed } from 'vue'
 const routerStore = useRouterStore()
 const breadcrumbs = computed(() => routerStore.breadcrumbs)
 </script>
-

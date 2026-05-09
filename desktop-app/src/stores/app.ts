@@ -39,4 +39,3 @@ export const useAppStore = defineStore(
     },
   }
 )
-

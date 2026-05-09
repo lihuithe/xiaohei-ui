@@ -35,7 +35,7 @@ export const useRouterStore = defineStore('router', () => {
   }
 
   function removeDynamicRoute(path: string) {
-    dynamicRoutes.value = dynamicRoutes.value.filter(r => r.path !== path)
+    dynamicRoutes.value = dynamicRoutes.value.filter((r) => r.path !== path)
     addedRoutes.value.delete(path)
   }
 
@@ -55,4 +55,3 @@ export const useRouterStore = defineStore('router', () => {
     getDynamicRoutes,
   }
 })
-

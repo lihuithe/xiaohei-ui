@@ -81,11 +81,11 @@ const privacy = ref({
               <div class="grid gap-4">
                 <div class="grid gap-2">
                   <Label for="name">用户名</Label>
-                  <Input id="name" defaultValue="张三" />
+                  <Input id="name" default-value="张三" />
                 </div>
                 <div class="grid gap-2">
                   <Label for="email">邮箱</Label>
-                  <Input id="email" type="email" defaultValue="zhangsan@example.com" />
+                  <Input id="email" type="email" default-value="zhangsan@example.com" />
                 </div>
                 <div class="grid gap-2">
                   <Label for="bio">简介</Label>

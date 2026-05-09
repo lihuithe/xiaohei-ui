@@ -25,7 +25,7 @@ const md = new MarkdownIt({
       } catch (__) {}
     }
     return ''
-  }
+  },
 })
 
 const rendered = computed(() => md.render(props.content))

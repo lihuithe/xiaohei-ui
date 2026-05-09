@@ -24,9 +24,7 @@ const baseRoutes: RouteRecordRaw[] = [
     component: () => import('@/pages/HomePage.vue'),
     meta: {
       title: '首页',
-      breadcrumb: [
-        { path: '/', title: '首页' },
-      ],
+      breadcrumb: [{ path: '/', title: '首页' }],
     },
   },
   {
@@ -38,6 +36,18 @@ const baseRoutes: RouteRecordRaw[] = [
       breadcrumb: [
         { path: '/', title: '首页' },
         { path: '/components', title: '组件' },
+      ],
+    },
+  },
+  {
+    path: '/playground',
+    name: 'Playground',
+    component: () => import('@/pages/ComponentPlayground.vue'),
+    meta: {
+      title: '组件演示',
+      breadcrumb: [
+        { path: '/', title: '首页' },
+        { path: '/playground', title: '组件演示' },
       ],
     },
   },
@@ -101,4 +111,3 @@ export function removeDynamicRoute(name: string) {
 }
 
 export default router
-

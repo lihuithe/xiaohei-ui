@@ -12,20 +12,20 @@ export default {
     success: 'Success',
     error: 'Error',
     warning: 'Warning',
-    info: 'Info'
+    info: 'Info',
   },
   nav: {
     home: 'Home',
     components: 'Components',
-    settings: 'Settings'
+    settings: 'Settings',
   },
   theme: {
     light: 'Light',
     dark: 'Dark',
-    system: 'System'
+    system: 'System',
   },
   language: {
     zhCN: '中文',
-    enUS: 'English'
-  }
+    enUS: 'English',
+  },
 }

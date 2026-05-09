@@ -92,12 +92,12 @@ function close() {
   <div v-else class="titlebar win-titlebar" @dblclick="handleDoubleClick">
     <span class="titlebar-title text-xs">Electron Vue3 App</span>
     <div class="win-controls">
-      <button class="win-btn" @click="minimize" title="最小化">
+      <button class="win-btn" title="最小化" @click="minimize">
         <svg width="10" height="1" viewBox="0 0 10 1">
           <rect width="10" height="1" fill="currentColor" />
         </svg>
       </button>
-      <button class="win-btn" @click="maximize" :title="isMaximized ? '还原' : '最大化'">
+      <button class="win-btn" :title="isMaximized ? '还原' : '最大化'" @click="maximize">
         <svg v-if="!isMaximized" width="10" height="10" viewBox="0 0 10 10" fill="none">
           <rect x="0.5" y="0.5" width="9" height="9" stroke="currentColor" fill="none" />
         </svg>
@@ -107,7 +107,7 @@ function close() {
           <rect x="0" y="2.5" width="7" height="7" stroke="currentColor" fill="none" />
         </svg>
       </button>
-      <button class="win-btn win-btn-close" @click="close" title="关闭">
+      <button class="win-btn win-btn-close" title="关闭" @click="close">
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
           <path d="M0 0L10 10M10 0L0 10" stroke="currentColor" stroke-width="1" />
         </svg>

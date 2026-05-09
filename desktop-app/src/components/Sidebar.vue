@@ -129,7 +129,7 @@ function getThemeTitle() {
 
       <!-- Collapse toggle (panel icon) -->
       <div class="sidebar-titlebar-actions" @dblclick.stop>
-        <button class="titlebar-action-btn" @click="toggleCollapse" title="收起菜单">
+        <button class="titlebar-action-btn" title="收起菜单" @click="toggleCollapse">
           <PanelLeft :size="14" />
         </button>
       </div>

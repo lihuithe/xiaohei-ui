@@ -12,20 +12,20 @@ export default {
     success: '成功',
     error: '错误',
     warning: '警告',
-    info: '提示'
+    info: '提示',
   },
   nav: {
     home: '首页',
     components: '组件',
-    settings: '设置'
+    settings: '设置',
   },
   theme: {
     light: '浅色模式',
     dark: '深色模式',
-    system: '跟随系统'
+    system: '跟随系统',
   },
   language: {
     zhCN: '中文',
-    enUS: 'English'
-  }
+    enUS: 'English',
+  },
 }

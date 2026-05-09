@@ -3,14 +3,16 @@
     <div class="flex items-center justify-between px-4 py-2 bg-muted/50 border-b text-sm">
       <span class="text-muted-foreground">{{ language }}</span>
       <button
-        @click="copyCode"
         class="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-accent rounded"
+        @click="copyCode"
       >
         <span v-if="!copied">{{ t('common.copy', '复制') }}</span>
         <span v-else class="text-green-500">{{ t('common.copied', '已复制') }}</span>
       </button>
     </div>
-    <pre class="p-4 overflow-x-auto"><code :class="`language-${language}`" v-html="highlightedCode"></code></pre>
+    <pre
+      class="p-4 overflow-x-auto"
+    ><code :class="`language-${language}`" v-html="highlightedCode"></code></pre>
   </div>
 </template>
 
@@ -39,7 +41,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  language: 'typescript'
+  language: 'typescript',
 })
 
 const { t } = useI18n()
@@ -80,6 +82,8 @@ pre {
 }
 
 code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
 }
 </style>

@@ -7,4 +7,3 @@ pinia.use(piniaPluginPersistedstate)
 export default pinia
 export * from './app'
 export * from './router'
-

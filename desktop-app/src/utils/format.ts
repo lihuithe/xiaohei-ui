@@ -1,7 +1,7 @@
 export const formatNumber = (num: number, decimals = 2) => {
   return num.toLocaleString('zh-CN', {
     minimumFractionDigits: decimals,
-    maximumFractionDigits: decimals
+    maximumFractionDigits: decimals,
   })
 }
 
@@ -12,7 +12,7 @@ export const formatPercent = (num: number, decimals = 2) => {
 export const formatCurrency = (num: number, currency = 'CNY') => {
   return num.toLocaleString('zh-CN', {
     style: 'currency',
-    currency
+    currency,
   })
 }
 

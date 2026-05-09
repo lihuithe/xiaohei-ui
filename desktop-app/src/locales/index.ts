@@ -4,7 +4,7 @@ import enUS from './en-US'
 
 const messages = {
   'zh-CN': zhCN,
-  'en-US': enUS
+  'en-US': enUS,
 }
 
 const savedLocale = localStorage.getItem('locale') || 'zh-CN'
@@ -13,7 +13,7 @@ export const i18n = createI18n({
   legacy: false,
   locale: savedLocale,
   fallbackLocale: 'zh-CN',
-  messages
+  messages,
 })
 
 export const setLocale = (locale: string) => {
@@ -23,5 +23,5 @@ export const setLocale = (locale: string) => {
 
 export const availableLocales = [
   { code: 'zh-CN', name: '中文' },
-  { code: 'en-US', name: 'English' }
+  { code: 'en-US', name: 'English' },
 ]
