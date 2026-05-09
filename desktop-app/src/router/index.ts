@@ -42,6 +42,18 @@ const baseRoutes: RouteRecordRaw[] = [
     },
   },
   {
+    path: '/playground',
+    name: 'Playground',
+    component: () => import('@/pages/ComponentPlayground.vue'),
+    meta: {
+      title: '组件演示',
+      breadcrumb: [
+        { path: '/', title: '首页' },
+        { path: '/playground', title: '组件演示' },
+      ],
+    },
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('@/pages/NotFoundPage.vue'),
