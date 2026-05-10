@@ -226,70 +226,125 @@ onMounted(() => {
 
 <style scoped>
 .theme-editor {
-  @apply p-6 space-y-6;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .theme-editor__header {
-  @apply flex items-center justify-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .theme-presets__grid {
-  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .theme-presets__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .theme-presets__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .theme-preset {
-  @apply p-3 rounded-lg border cursor-pointer transition-all hover:border-primary/50;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.theme-preset:hover {
+  border-color: color-mix(in oklch, var(--primary) 50%, transparent);
 }
 
 .theme-preset--active {
-  @apply border-primary bg-primary/5;
+  border-color: var(--primary);
+  background: color-mix(in oklch, var(--primary) 5%, transparent);
 }
 
 .theme-preset__preview {
-  @apply mb-2;
+  margin-bottom: 0.5rem;
 }
 
 .theme-preset__preview-bg {
-  @apply h-16 rounded-md flex items-center justify-center;
+  height: 4rem;
+  border-radius: 0.375rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .theme-preset__preview-primary {
-  @apply w-8 h-8 rounded-full;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
 }
 
 .theme-preset__info {
-  @apply text-sm;
+  font-size: 0.875rem;
 }
 
 .theme-preset__name {
-  @apply font-medium;
+  font-weight: 500;
 }
 
 .theme-preset__desc {
-  @apply text-xs text-muted-foreground;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
 }
 
 .theme-custom__colors {
-  @apply grid grid-cols-1 sm:grid-cols-2 gap-3;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .theme-custom__colors {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .theme-color-picker {
-  @apply space-y-1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .theme-color-picker__label {
-  @apply text-sm font-medium;
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
 .theme-color-picker__input {
-  @apply flex items-center gap-2;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .theme-color-picker__color {
-  @apply w-10 h-10 rounded cursor-pointer border-0 p-0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  border: none;
+  padding: 0;
 }
 
 .theme-color-picker__value {
-  @apply text-xs text-muted-foreground font-mono;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  font-family: monospace;
 }
 </style>

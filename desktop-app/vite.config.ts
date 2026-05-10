@@ -3,30 +3,36 @@ import fs from 'node:fs'
 import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
 import vue from '@vitejs/plugin-vue'
-import electron from 'vite-plugin-electron'
-import renderer from 'vite-plugin-electron-renderer'
+
+const isDev = process.env.NODE_ENV !== 'production'
+const isElectronBuild = process.argv.includes('build:electron') || 
+                        process.argv.includes('build:win') || 
+                        process.argv.includes('build:mac') ||
+                        process.argv.includes('build:linux')
 
 export default defineConfig({
   plugins: [
     vue(),
     tailwindcss(),
-    electron([
-      {
-        entry: 'electron/main.ts',
-        vite: {
-          build: {
-            minify: 'terser',
-            terserOptions: {
-              compress: {
-                drop_console: true,
-                drop_debugger: true,
+    ...(isElectronBuild ? [
+      (await import('vite-plugin-electron')).default([
+        {
+          entry: 'electron/main.ts',
+          vite: {
+            build: {
+              minify: 'terser',
+              terserOptions: {
+                compress: {
+                  drop_console: true,
+                  drop_debugger: true,
+                },
               },
             },
           },
         },
-      },
-    ]),
-    renderer(),
+      ]),
+      (await import('vite-plugin-electron-renderer')).default(),
+    ] : []),
     {
       name: 'copy-preload',
       buildStart() {
@@ -58,11 +64,21 @@ export default defineConfig({
     },
     rollupOptions: {
       output: {
-        manualChunks: {
-          'vue-vendor': ['vue', 'vue-router', 'pinia'],
-          'ui-vendor': ['lucide-vue-next', 'shadcn-vue', 'reka-ui'],
-          'chart-vendor': ['echarts', 'vue-echarts'],
-          'utils-vendor': ['dayjs', 'xlsx', 'zod', 'vee-validate'],
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('vue') || id.includes('pinia')) {
+              return 'vue-vendor'
+            }
+            if (id.includes('lucide-vue-next') || id.includes('shadcn-vue') || id.includes('reka-ui')) {
+              return 'ui-vendor'
+            }
+            if (id.includes('echarts') || id.includes('vue-echarts')) {
+              return 'chart-vendor'
+            }
+            if (id.includes('dayjs') || id.includes('xlsx') || id.includes('zod') || id.includes('vee-validate')) {
+              return 'utils-vendor'
+            }
+          }
         },
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',

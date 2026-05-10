@@ -9,8 +9,8 @@
       <div v-if="activeTab === 'theme'" class="tab-panel">
         <ThemeEditor />
       </div>
-      <div v-if="activeTab === 'files'" class="tab-panel">
-        <div class="p-6">
+      <div v-if="activeTab === 'files'" class="tab-panel feature-demo__panel">
+        <div class="feature-demo__content">
           <h2 class="text-lg font-semibold mb-4">文件上传与管理</h2>
           <FileUploader
             accept="*"
@@ -20,10 +20,10 @@
           />
         </div>
       </div>
-      <div v-if="activeTab === 'notifications'" class="tab-panel">
-        <div class="p-6">
+      <div v-if="activeTab === 'notifications'" class="tab-panel feature-demo__panel">
+        <div class="feature-demo__content">
           <h2 class="text-lg font-semibold mb-4">通知系统</h2>
-          <div class="space-y-3">
+          <div class="feature-demo__notification-buttons">
             <Button @click="showNotification('success')">成功通知</Button>
             <Button @click="showNotification('info')">信息通知</Button>
             <Button @click="showNotification('warning')">警告通知</Button>
@@ -118,14 +118,33 @@ function showNotification(type: string) {
 
 <style scoped>
 .feature-demo {
-  @apply h-full flex flex-col;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .demo-header {
-  @apply p-6 border-b;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border);
 }
 
 .tab-panel {
-  @apply h-full;
+  height: 100%;
+}
+
+.feature-demo__panel {
+  padding: 1.5rem;
+}
+
+.feature-demo__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.feature-demo__notification-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 </style>

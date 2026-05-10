@@ -144,15 +144,25 @@ onUnmounted(() => {
 
 <style scoped>
 .enhanced-tabs {
-  @apply flex flex-col h-full;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .tabs-header {
-  @apply flex items-center gap-2 border-b px-2;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  padding: 0 0.5rem;
 }
 
 .tabs-list {
-  @apply flex-1 flex items-center gap-1 overflow-x-auto scrollbar-hide;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  overflow-x: auto;
 }
 
 .tabs-list::-webkit-scrollbar {
@@ -160,30 +170,57 @@ onUnmounted(() => {
 }
 
 .tab-item {
-  @apply flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted whitespace-nowrap transition-all border-2 border-transparent;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  background: transparent;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab-item:hover {
+  background: var(--muted);
 }
 
 .tab-item--active {
-  @apply bg-background text-foreground border-primary/20;
+  background: var(--background);
+  color: var(--foreground);
+  border-color: color-mix(in oklch, var(--primary) 20%, transparent);
 }
 
 .tab-item__title {
-  @apply truncate;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tab-item__close {
-  @apply opacity-0 group-hover:opacity-100 hover:bg-muted;
+  opacity: 0;
 }
 
 .tab-item:hover .tab-item__close {
-  @apply opacity-100;
+  opacity: 100;
+}
+
+.tab-item__close:hover {
+  background: var(--muted);
 }
 
 .tabs-actions {
-  @apply flex items-center gap-1;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 .tabs-content {
-  @apply flex-1 overflow-auto;
+  flex: 1;
+  overflow: auto;
 }
 </style>

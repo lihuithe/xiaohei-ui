@@ -242,66 +242,105 @@ function generateId(): string {
 
 <style scoped>
 .file-uploader {
-  @apply space-y-4;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .upload-zone {
-  @apply border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-all hover:border-primary/50;
+  border: 2px dashed var(--border);
+  border-radius: 0.5rem;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.upload-zone:hover {
+  border-color: color-mix(in oklch, var(--primary) 50%, transparent);
 }
 
 .upload-zone--dragging {
-  @apply border-primary bg-primary/5;
+  border-color: var(--primary);
+  background: color-mix(in oklch, var(--primary) 5%, transparent);
 }
 
 .upload-zone__content {
-  @apply flex flex-col items-center gap-3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .upload-zone__icon {
-  @apply w-12 h-12 text-muted-foreground;
+  width: 3rem;
+  height: 3rem;
+  color: var(--muted-foreground);
 }
 
 .upload-zone__text {
-  @apply space-y-1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .file-list {
-  @apply space-y-3;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .file-list__header {
-  @apply flex items-center justify-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .file-list__content {
-  @apply space-y-2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .file-item {
-  @apply flex items-center gap-3 p-3 rounded-lg border;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
 }
 
 .file-item__icon {
-  @apply flex-shrink-0 text-muted-foreground;
+  flex-shrink: 0;
+  color: var(--muted-foreground);
 }
 
 .file-item__info {
-  @apply flex-1 min-w-0;
+  flex: 1;
+  min-width: 0;
 }
 
 .file-item__name {
-  @apply font-medium truncate;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .file-item__meta {
-  @apply text-sm text-muted-foreground;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
 }
 
 .file-item__progress {
-  @apply flex-shrink-0;
+  flex-shrink: 0;
 }
 
 .file-item__actions {
-  @apply flex items-center gap-1 flex-shrink-0;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
 }
 </style>
